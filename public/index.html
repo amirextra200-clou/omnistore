@@ -3,217 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniStore - Home</title>
-   <link rel="stylesheet" href="./CSS/style.css">
-    <style>
-    @keyframes bounceIn {
-        0% { opacity: 0; transform: translateY(10px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    </style>
+    <title>OmniStore - Explore Products</title>
+    <link rel="stylesheet" href="./CSS/style.css">
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="index.html" class="brand-logo">🛍️ OmniStore</a>
-        <div class="nav-links" style="display: flex; align-items: center; gap: 15px;">
-            <input type="text" id="search-input" placeholder="Search products..." onkeyup="filterProducts()" style="padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; width: 200px;">
-            <a href="index.html" class="nav-link" style="font-weight: bold;">Home</a>
-            <a href="admin.html" class="nav-link" style="color: #ffc107; font-weight: bold;">Admin Panel</a>
-            <a href="cart.html" class="nav-link" style="background: #28a745; color: white; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-weight: bold;">🛒 Cart</a>
+    <!-- Header / Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">🛍️ OmniStore</a>
         </div>
-    </nav>
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search products...">
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="cart.html" class="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </header>
 
     <!-- Main Container -->
     <main class="container">
-        <h1 class="page-title">Explore Products</h1>
-        
+        <h2>Explore Products</h2>
+
         <!-- Category Filters -->
-        <div id="category-filters" style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center;">
-            <button onclick="filterByCategory('All')" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: #2563eb; color: white; border-radius: 6px; cursor: pointer; font-weight: bold;">All</button>
-            <button onclick="filterByCategory('Electronics')" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: white; color: #334155; border-radius: 6px; cursor: pointer; font-weight: bold;">Electronics</button>
-            <button onclick="filterByCategory('Watches')" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: white; color: #334155; border-radius: 6px; cursor: pointer; font-weight: bold;">Watches</button>
-            <button onclick="filterByCategory('Skincare')" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: white; color: #334155; border-radius: 6px; cursor: pointer; font-weight: bold;">Skincare</button>
-            <button onclick="filterByCategory('Hair Care')" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: white; color: #334155; border-radius: 6px; cursor: pointer; font-weight: bold;">Hair Care</button>
-            <button onclick="filterByCategory('Fashion')" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: white; color: #334155; border-radius: 6px; cursor: pointer; font-weight: bold;">Fashion</button>
-            <button onclick="filterByCategory('Groceries')" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: white; color: #334155; border-radius: 6px; cursor: pointer; font-weight: bold;">Groceries</button>
+        <div class="category-buttons">
+            <button class="filter-btn active" onclick="filterCategory('all')">All</button>
+            <button class="filter-btn" onclick="filterCategory('electronics')">Electronics</button>
+            <button class="filter-btn" onclick="filterCategory('watches')">Watches</button>
+            <button class="filter-btn" onclick="filterCategory('skincare')">Skincare</button>
+            <button class="filter-btn" onclick="filterCategory('haircare')">Hair Care</button>
+            <button class="filter-btn" onclick="filterCategory('fashion')">Fashion</button>
+            <button class="filter-btn" onclick="filterCategory('groceries')">Groceries</button>
         </div>
 
-        <!-- Product Grid -->
-        <div id="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
-            <!-- Products will load here dynamically -->
+        <!-- Products Grid Container -->
+        <div class="product-grid" id="productGrid">
+            <!-- Product items will be loaded or rendered here -->
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer>
         <p>&copy; 2026 OmniStore. All Rights Reserved.</p>
     </footer>
 
-    <!-- AI Chat Widget Floating Button, Notification Bubble & Box -->
-    <div id="ai-chat-widget" style="position: fixed; bottom: 25px; right: 25px; z-index: 1000; font-family: Arial, sans-serif;">
-        <div id="ai-welcome-bubble" style="position: absolute; bottom: 65px; right: 0; background: white; color: #1e293b; padding: 10px 14px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid #cbd5e1; font-size: 0.85rem; width: 220px; display: flex; justify-content: space-between; align-items: flex-start; animation: bounceIn 0.5s ease-out;">
-            <span>👋 Hi there! Need help finding any product? Ask me! 😊</span>
-            <button onclick="closeWelcomeBubble()" style="background: none; border: none; color: #64748b; font-size: 14px; cursor: pointer; margin-left: 5px; padding: 0;">✕</button>
-        </div>
-
-        <button onclick="toggleAiChat()" style="background: #2563eb; color: white; border: none; width: 55px; height: 55px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;">
-            🤖
-        </button>
-
-        <div id="ai-chat-box" style="display: none; position: absolute; bottom: 70px; right: 0; width: 320px; height: 420px; background: white; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); flex-direction: column; overflow: hidden;">
-            <div style="background: #2563eb; color: white; padding: 12px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-                <span>🤖 OmniStore AI Assistant</span>
-                <button onclick="toggleAiChat()" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer;">✕</button>
-            </div>
-            <div id="ai-chat-messages" style="flex: 1; padding: 12px; overflow-y: auto; background: #f8fafc; font-size: 0.9rem; display: flex; flex-direction: column; gap: 8px;">
-                <div style="background: #e2e8f0; padding: 8px 12px; border-radius: 8px; max-width: 80%; align-self: flex-start; color: #1e293b;">
-                    Hello! Main aap ki OmniStore par shopping karne mein kya madad kar sakta hoon? 😊
-                </div>
-            </div>
-            <div style="padding: 10px; background: white; border-top: 1px solid #e2e8f0; display: flex; gap: 6px;">
-                <input type="text" id="ai-chat-input" placeholder="Ask something..." onkeypress="handleAiKeyPress(event)" style="flex: 1; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.85rem;">
-                <button onclick="sendAiMessage()" style="background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Script Logic -->
+    <!-- Updated JavaScript with English Green Button State Feedback -->
     <script>
-        let allProducts = [];
+        // Synchronize Cart Count on Page Load
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartCount();
+        });
 
-        async function fetchProducts() {
-            try {
-                const response = await fetch('/api/products');
-                const result = await response.json();
-                if (result.success) {
-                    allProducts = result.data;
-                    displayProducts(allProducts);
-                }
-            } catch (error) {
-                console.error("Error fetching products:", error);
+        // Add to Cart Function with Green Button Feedback (No Alerts)
+        function addToCart(button, productName, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ name: productName, price: parseFloat(price) });
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Update badge count
+            updateCartCount();
+
+            // Store original button styling
+            const originalText = button.innerText;
+            const originalBg = button.style.backgroundColor;
+
+            // Apply Green "Added!" state
+            button.innerText = "Added! ✓";
+            button.style.backgroundColor = "#28a745";
+            button.style.color = "#ffffff";
+            button.disabled = true;
+
+            // Revert back after 1.5 seconds
+            setTimeout(() => {
+                button.innerText = originalText;
+                button.style.backgroundColor = originalBg;
+                button.style.color = "";
+                button.disabled = false;
+            }, 1500);
+        }
+
+        // Cart Count Helper Function
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartBadge = document.getElementById('cart-count');
+            if (cartBadge) {
+                cartBadge.innerText = cart.length;
             }
         }
 
-        function displayProducts(products) {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = '';
-            
-            if (products.length === 0) {
-                grid.innerHTML = '<p class="no-products" style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 1.2rem; color: #64748b;">Koi product nahi mila!</p>';
-                return;
-            }
+        // Live Product Search
+        function searchProducts() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('product-card');
 
-            products.forEach(product => {
-                const imageSrc = product.image ? product.image : 'images/placeholder.jpg';
-                grid.innerHTML += `
-                    <div class="product-card" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                        <div>
-                            <img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; background: #f1f5f9;">
-                            <h3 style="font-size: 1rem; margin: 0 0 5px 0; color: #1e293b;">${product.name}</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase; font-weight: bold;">${product.category}</p>
-                        </div>
-                        <div>
-                            <p style="font-size: 1.1rem; font-weight: bold; color: #16a34a; margin: 0 0 10px 0;">$${product.price.toFixed(2)}</p>
-                            <button onclick="addToCart(${product.id})" style="width: 100%; background: #2563eb; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">Add to Cart</button>
-                        </div>
-                    </div>
-                `;
+            Array.from(cards).forEach(card => {
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                if (title.includes(input)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
             });
         }
 
-        function filterProducts() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
-            displayProducts(filtered);
-        }
+        // Category Filter
+        function filterCategory(category) {
+            let cards = document.getElementsByClassName('product-card');
+            let buttons = document.getElementsByClassName('filter-btn');
 
-        function filterByCategory(category) {
-            if (category === 'All') {
-                displayProducts(allProducts);
-            } else {
-                const filtered = allProducts.filter(p => p.category === category);
-                displayProducts(filtered);
-            }
-        }
+            Array.from(buttons).forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
 
-        async function addToCart(productId) {
-            try {
-                const response = await fetch('/api/cart/add', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ productId: productId, quantity: 1 })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    alert("Product cart mein add ho gaya!");
+            Array.from(cards).forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
                 }
-            } catch (error) {
-                console.error("Error adding to cart:", error);
-            }
+            });
         }
-
-        function toggleAiChat() {
-            const box = document.getElementById('ai-chat-box');
-            const bubble = document.getElementById('ai-welcome-bubble');
-            
-            if (box.style.display === 'flex') {
-                box.style.display = 'none';
-            } else {
-                box.style.display = 'flex';
-                if (bubble) bubble.style.display = 'none';
-            }
-        }
-
-        function closeWelcomeBubble() {
-            const bubble = document.getElementById('ai-welcome-bubble');
-            if (bubble) bubble.style.display = 'none';
-        }
-
-        function handleAiKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendAiMessage();
-            }
-        }
-
-        function sendAiMessage() {
-            const input = document.getElementById('ai-chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            const messagesContainer = document.getElementById('ai-chat-messages');
-            
-            messagesContainer.innerHTML += `
-                <div style="background: #2563eb; color: white; padding: 8px 12px; border-radius: 8px; max-width: 80%; align-self: flex-end;">
-                    ${text}
-                </div>
-            `;
-            input.value = '';
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            setTimeout(() => {
-                let reply = "Main aap ki is baat mein kya madad kar sakta hoon? Aap hamari categories (Electronics, Watches, Skincare, Hair Care, Fashion, Groceries) explore kar sakte hain!";
-                const lower = text.toLowerCase();
-                
-                if (lower.includes('hello') || lower.includes('hi')) {
-                    reply = "Assalam-o-Alaikum! OmniStore mein khushamadeed.";
-                } else if (lower.includes('discount') || lower.includes('offer')) {
-                    reply = "Filhal hamare paas sabhi products par best competitive prices available hain!";
-                } else if (lower.includes('delivery') || lower.includes('shipping')) {
-                    reply = "Hum fast aur secure home delivery provide karte hain!";
-                }
-
-                messagesContainer.innerHTML += `
-                    <div style="background: #e2e8f0; padding: 8px 12px; border-radius: 8px; max-width: 80%; align-self: flex-start; color: #1e293b;">
-                        ${reply}
-                    </div>
-                `;
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 600);
-        }
-
-        fetchProducts();
     </script>
 </body>
 </html>
