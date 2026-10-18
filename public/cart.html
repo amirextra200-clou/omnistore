@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniStore - Shopping Cart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="brand-logo">🛍️ OmniStore</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="admin.html" class="nav-link" style="color: #ffc107; font-weight: bold;">Admin Panel</a>
+            <a href="cart.html" class="nav-link" style="background: #28a745; color: white; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-weight: bold;">🛒 Cart</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        <h1 class="page-title">🛒 Your Shopping Cart</h1>
+        
+        <div id="cart-container">
+            <div id="checkout-message" style="display: none; background: #dcfce7; color: #166534; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; border: 1px solid #bbf7d0;"></div>
+            
+            <div id="cart-items-list" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;"></div>
+            
+            <div id="cart-summary" style="background: white; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: right; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <h3 style="margin-bottom: 15px; font-size: 1.4rem;">Total Amount: $<span id="cart-total" style="color: #16a34a;">0.00</span></h3>
+                <button onclick="checkoutOrder()" style="background-color: #28a745; color: white; border: none; padding: 12px 30px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.1rem;">Proceed to Checkout</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 OmniStore. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Cart Logic -->
+    <script>
+        async function loadCart() {
+            try {
+                const response = await fetch('/api/cart');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const cartList = document.getElementById('cart-items-list');
+                    const cartSummary = document.getElementById('cart-summary');
+                    const cartTotal = document.getElementById('cart-total');
+                    
+                    cartList.innerHTML = '';
+                    
+                    if (result.cart.length === 0) {
+                        cartList.innerHTML = '<p class="no-products" style="text-align: center; padding: 50px; font-size: 1.2rem; color: #64748b;">Aapka cart bilkul khali hai!</p>';
+                        cartSummary.style.display = 'none';
+                        return;
+                    }
+                    
+                    cartSummary.style.display = 'block';
+                    let total = 0;
+                    
+                    result.cart.forEach(item => {
+                        const itemTotal = item.price * item.quantity;
+                        total += itemTotal;
+                        
+                        cartList.innerHTML += `
+                            <div style="display: flex; align-items: center; background: white; padding: 15px 20px; border-radius: 8px; border: 1px solid #e2e8f0; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <img src="${item.image || 'images/placeholder.jpg'}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
+                                    <div>
+                                        <h3 style="margin: 0 0 5px 0; font-size: 1.2rem; color: #1e293b;">${item.name}</h3>
+                                        <p style="margin: 0; color: #64748b; font-size: 0.95rem;">Price: $${item.price.toFixed(2)}</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <div style="display: flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden;">
+                                        <button onclick="changeQuantity(${item.productId}, ${item.quantity - 1})" style="background: #f1f5f9; border: none; padding: 8px 14px; cursor: pointer; font-weight: bold; font-size: 1.1rem;">-</button>
+                                        <span style="padding: 0 15px; font-weight: bold; color: #1e293b;">${item.quantity}</span>
+                                        <button onclick="changeQuantity(${item.productId}, ${item.quantity + 1})" style="background: #f1f5f9; border: none; padding: 8px 14px; cursor: pointer; font-weight: bold; font-size: 1.1rem;">+</button>
+                                    </div>
+                                    <div style="font-weight: bold; font-size: 1.2rem; color: #16a34a; min-width: 90px; text-align: right;">
+                                        $${itemTotal.toFixed(2)}
+                                    </div>
+                                    <button onclick="deleteItem(${item.productId})" style="background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">🗑️</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    cartTotal.textContent = total.toFixed(2);
+                }
+            } catch (error) {
+                console.error("Error loading cart:", error);
+            }
+        }
+
+        async function changeQuantity(productId, newQty) {
+            try {
+                await fetch('/api/cart/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productId: productId, quantity: newQty })
+                });
+                loadCart();
+            } catch (error) {
+                console.error("Error changing quantity:", error);
+            }
+        }
+
+        async function deleteItem(productId) {
+            try {
+                await fetch('/api/cart/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productId: productId })
+                });
+                loadCart();
+            } catch (error) {
+                console.error("Error deleting item:", error);
+            }
+        }
+
+        async function checkoutOrder() {
+            try {
+                const response = await fetch('/api/cart/checkout', { method: 'POST' });
+                const result = await response.json();
+                
+                const msgBox = document.getElementById('checkout-message');
+                if (result.success) {
+                    msgBox.textContent = result.message;
+                    msgBox.style.backgroundColor = '#dcfce7';
+                    msgBox.style.color = '#166534';
+                    msgBox.style.borderColor = '#bbf7d0';
+                    msgBox.style.display = 'block';
+                    loadCart();
+                    setTimeout(() => {
+                        msgBox.style.display = 'none';
+                    }, 5000);
+                } else {
+                    msgBox.textContent = result.message;
+                    msgBox.style.backgroundColor = '#fee2e2';
+                    msgBox.style.color = '#991b1b';
+                    msgBox.style.borderColor = '#fecaca';
+                    msgBox.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Checkout error:", error);
+            }
+        }
+
+        loadCart();
+    </script>
+</body>
+</html>

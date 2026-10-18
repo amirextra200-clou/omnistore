@@ -1,0 +1,44 @@
+[
+  {
+    "orderId": "ORD-1792299131711",
+    "date": "2026-10-18T04:52:11.711Z",
+    "items": [
+      {
+        "productId": 2,
+        "name": "Mechanical Gaming Keyboard",
+        "price": 89.99,
+        "image": "images/keyboard.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 89.99
+  },
+  {
+    "orderId": "ORD-1792299345528",
+    "date": "2026-10-18T04:55:45.528Z",
+    "items": [
+      {
+        "productId": 2,
+        "name": "Mechanical Gaming Keyboard",
+        "price": 89.99,
+        "image": "images/keyboard.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 89.99
+  },
+  {
+    "orderId": "ORD-1792299532188",
+    "date": "2026-10-18T04:58:52.188Z",
+    "items": [
+      {
+        "productId": 3,
+        "name": "Noise Cancelling Headphones",
+        "price": 120,
+        "image": "images/headphones.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 120
+  }
+]

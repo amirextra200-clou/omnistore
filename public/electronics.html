@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniStore - Electronics</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Pinned Header Navbar -->
+   <nav class="navbar">
+    <a href="index.html" class="brand-logo">🛍️ OmniStore</a>
+    
+    <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        
+        <div class="dropdown">
+            <button class="dropdown-btn">Categories ▾</button>
+            <div class="dropdown-content">
+                <a href="electronics.html">⚡ Electronics</a>
+                <a href="skincare.html">✨ Skincare</a>
+                <a href="haircare.html">💆‍♂️ Hair Care</a>
+                <a href="fashion.html">👕 Fashion & Clothing</a>
+                <a href="groceries.html">🛒 Groceries & Home</a>
+            </div>
+        </div>
+
+        <a href="admin.html" class="nav-link" style="color: #ffc107; font-weight: bold;">Admin Panel</a>
+        <a href="#" class="nav-link" style="background: #28a745; color: white; padding: 6px 12px; border-radius: 6px;">🛒 Cart (0)</a>
+    </div>
+</nav>
+
+    <!-- Page Main Content -->
+    <main class="container">
+        <h1 class="page-title">⚡ Electronics Products</h1>
+        
+        <!-- Filtered Product Grid -->
+        <div id="product-grid" class="product-grid"></div>
+    </main>
+
+    <!-- Pinned Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 OmniStore. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript to Fetch and Filter Electronics Products -->
+    <script>
+        async function loadElectronicsProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const grid = document.getElementById('product-grid');
+                    grid.innerHTML = '';
+                    
+                    // Sirf wahi products filter karo jinki category 'Electronics' ho
+                    const electronicsProducts = result.data.filter(p => p.category.toLowerCase() === 'electronics');
+                    
+                    if (electronicsProducts.length === 0) {
+                        grid.innerHTML = '<p style="color: #666; grid-column: 1/-1;">Abhi is category mein koi product available nahi hai.</p>';
+                        return;
+                    }
+
+                    electronicsProducts.forEach(product => {
+                        const imageSrc = product.image ? product.image : 'images/placeholder.jpg';
+                        grid.innerHTML += `
+                            <div class="product-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 15px;">
+                                <img src="${imageSrc}" alt="${product.name}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+                                <h3 style="margin: 5px 0; font-size: 1.1em;">${product.name}</h3>
+                                <p style="margin: 2px 0; color: #666; font-size: 0.9em;">${product.category}</p>
+                                <p style="margin: 5px 0; color: green; font-weight: bold; font-size: 1.2em;">$${product.price.toFixed(2)}</p>
+                                <button style="background-color: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-top: auto;">Add to Cart</button>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading products:", error);
+            }
+        }
+
+        loadElectronicsProducts();
+    </script>
+</body>
+</html>

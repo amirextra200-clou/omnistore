@@ -1,0 +1,434 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless RGB Gaming Mouse",
+    "price": 78.75,
+    "category": "Electronics",
+    "stock": 19,
+    "image": "/api/placeholder/Electronics/Wireless%20RGB%20Gaming%20Mouse"
+  },
+  {
+    "id": 2,
+    "name": "Mechanical Gaming Keyboard",
+    "price": 62.54,
+    "category": "Electronics",
+    "stock": 34,
+    "image": "/api/placeholder/Electronics/Mechanical%20Gaming%20Keyboard"
+  },
+  {
+    "id": 3,
+    "name": "Noise Cancelling Headphones",
+    "price": 42.3,
+    "category": "Electronics",
+    "stock": 17,
+    "image": "/api/placeholder/Electronics/Noise%20Cancelling%20Headphones"
+  },
+  {
+    "id": 4,
+    "name": "Ultra HD 4K Gaming Monitor",
+    "price": 57.07,
+    "category": "Electronics",
+    "stock": 31,
+    "image": "/api/placeholder/Electronics/Ultra%20HD%204K%20Gaming%20Monitor"
+  },
+  {
+    "id": 5,
+    "name": "Bluetooth Portable Speaker",
+    "price": 16.96,
+    "category": "Electronics",
+    "stock": 13,
+    "image": "/api/placeholder/Electronics/Bluetooth%20Portable%20Speaker"
+  },
+  {
+    "id": 6,
+    "name": "Fast Wireless Charging Pad",
+    "price": 22.79,
+    "category": "Electronics",
+    "stock": 17,
+    "image": "/api/placeholder/Electronics/Fast%20Wireless%20Charging%20Pad"
+  },
+  {
+    "id": 7,
+    "name": "1080p HD Webcam with Mic",
+    "price": 42.76,
+    "category": "Electronics",
+    "stock": 35,
+    "image": "/api/placeholder/Electronics/1080p%20HD%20Webcam%20with%20Mic"
+  },
+  {
+    "id": 8,
+    "name": "RGB LED Desk Light Bar",
+    "price": 30.55,
+    "category": "Electronics",
+    "stock": 25,
+    "image": "/api/placeholder/Electronics/RGB%20LED%20Desk%20Light%20Bar"
+  },
+  {
+    "id": 9,
+    "name": "Type-C Multi-Port Hub Adapter",
+    "price": 16.91,
+    "category": "Electronics",
+    "stock": 29,
+    "image": "/api/placeholder/Electronics/Type-C%20Multi-Port%20Hub%20Adapter"
+  },
+  {
+    "id": 10,
+    "name": "Smart Fitness Watch Series 7",
+    "price": 15.73,
+    "category": "Watches",
+    "stock": 33,
+    "image": "/api/placeholder/Watches/Smart%20Fitness%20Watch%20Series%207"
+  },
+  {
+    "id": 11,
+    "name": "Classic Leather Chronograph Watch",
+    "price": 31.88,
+    "category": "Watches",
+    "stock": 29,
+    "image": "/api/placeholder/Watches/Classic%20Leather%20Chronograph%20Watch"
+  },
+  {
+    "id": 12,
+    "name": "Luxury Stainless Steel Analog Watch",
+    "price": 88.63,
+    "category": "Watches",
+    "stock": 11,
+    "image": "/api/placeholder/Watches/Luxury%20Stainless%20Steel%20Analog%20Watch"
+  },
+  {
+    "id": 13,
+    "name": "Sport Waterproof Digital Watch",
+    "price": 17.07,
+    "category": "Watches",
+    "stock": 18,
+    "image": "/api/placeholder/Watches/Sport%20Waterproof%20Digital%20Watch"
+  },
+  {
+    "id": 14,
+    "name": "Minimalist Quartz Wrist Watch",
+    "price": 48.28,
+    "category": "Watches",
+    "stock": 22,
+    "image": "/api/placeholder/Watches/Minimalist%20Quartz%20Wrist%20Watch"
+  },
+  {
+    "id": 15,
+    "name": "Hydrating Facial Cream",
+    "price": 19.4,
+    "category": "Skincare",
+    "stock": 24,
+    "image": "/api/placeholder/Skincare/Hydrating%20Facial%20Cream"
+  },
+  {
+    "id": 16,
+    "name": "Vitamin C Glow Serum",
+    "price": 25.6,
+    "category": "Skincare",
+    "stock": 24,
+    "image": "/api/placeholder/Skincare/Vitamin%20C%20Glow%20Serum"
+  },
+  {
+    "id": 17,
+    "name": "Aloe Vera Soothing Gel",
+    "price": 75.91,
+    "category": "Skincare",
+    "stock": 19,
+    "image": "/api/placeholder/Skincare/Aloe%20Vera%20Soothing%20Gel"
+  },
+  {
+    "id": 18,
+    "name": "Exfoliating Face Scrub Mask",
+    "price": 82.57,
+    "category": "Skincare",
+    "stock": 18,
+    "image": "/api/placeholder/Skincare/Exfoliating%20Face%20Scrub%20Mask"
+  },
+  {
+    "id": 19,
+    "name": "Anti-Aging Night Repair Cream",
+    "price": 71.02,
+    "category": "Skincare",
+    "stock": 20,
+    "image": "/api/placeholder/Skincare/Anti-Aging%20Night%20Repair%20Cream"
+  },
+  {
+    "id": 20,
+    "name": "Hyaluronic Acid Hydrating Toner",
+    "price": 56.06,
+    "category": "Skincare",
+    "stock": 13,
+    "image": "/api/placeholder/Skincare/Hyaluronic%20Acid%20Hydrating%20Toner"
+  },
+  {
+    "id": 21,
+    "name": "Daily Mineral Sunscreen SPF 50+",
+    "price": 60.78,
+    "category": "Skincare",
+    "stock": 36,
+    "image": "/api/placeholder/Skincare/Daily%20Mineral%20Sunscreen%20SPF%2050%2B"
+  },
+  {
+    "id": 22,
+    "name": "Under Eye Dark Circle Cream",
+    "price": 71.63,
+    "category": "Skincare",
+    "stock": 11,
+    "image": "/api/placeholder/Skincare/Under%20Eye%20Dark%20Circle%20Cream"
+  },
+  {
+    "id": 23,
+    "name": "Charcoal Deep Cleansing Mud Mask",
+    "price": 37.84,
+    "category": "Skincare",
+    "stock": 21,
+    "image": "/api/placeholder/Skincare/Charcoal%20Deep%20Cleansing%20Mud%20Mask"
+  },
+  {
+    "id": 24,
+    "name": "Organic Rose Water Facial Spray",
+    "price": 43.77,
+    "category": "Skincare",
+    "stock": 30,
+    "image": "/api/placeholder/Skincare/Organic%20Rose%20Water%20Facial%20Spray"
+  },
+  {
+    "id": 25,
+    "name": "Nourishing Hair Shampoo",
+    "price": 29.92,
+    "category": "Hair Care",
+    "stock": 32,
+    "image": "/api/placeholder/Hair%20Care/Nourishing%20Hair%20Shampoo"
+  },
+  {
+    "id": 26,
+    "name": "Argan Hair Conditioning Oil",
+    "price": 68.7,
+    "category": "Hair Care",
+    "stock": 20,
+    "image": "/api/placeholder/Hair%20Care/Argan%20Hair%20Conditioning%20Oil"
+  },
+  {
+    "id": 27,
+    "name": "Keratin Smooth Hair Mask",
+    "price": 65.97,
+    "category": "Hair Care",
+    "stock": 24,
+    "image": "/api/placeholder/Hair%20Care/Keratin%20Smooth%20Hair%20Mask"
+  },
+  {
+    "id": 28,
+    "name": "Anti-Dandruff Scalp Treatment",
+    "price": 34.83,
+    "category": "Hair Care",
+    "stock": 19,
+    "image": "/api/placeholder/Hair%20Care/Anti-Dandruff%20Scalp%20Treatment"
+  },
+  {
+    "id": 29,
+    "name": "Organic Onion Hair Growth Serum",
+    "price": 58.65,
+    "category": "Hair Care",
+    "stock": 24,
+    "image": "/api/placeholder/Hair%20Care/Organic%20Onion%20Hair%20Growth%20Serum"
+  },
+  {
+    "id": 30,
+    "name": "Professional Hair Styling Gel",
+    "price": 89.64,
+    "category": "Hair Care",
+    "stock": 38,
+    "image": "/api/placeholder/Hair%20Care/Professional%20Hair%20Styling%20Gel"
+  },
+  {
+    "id": 31,
+    "name": "Heat Protectant Hair Spray",
+    "price": 46.98,
+    "category": "Hair Care",
+    "stock": 10,
+    "image": "/api/placeholder/Hair%20Care/Heat%20Protectant%20Hair%20Spray"
+  },
+  {
+    "id": 32,
+    "name": "Biotin Strengthening Conditioner",
+    "price": 76.62,
+    "category": "Hair Care",
+    "stock": 22,
+    "image": "/api/placeholder/Hair%20Care/Biotin%20Strengthening%20Conditioner"
+  },
+  {
+    "id": 33,
+    "name": "Natural Coconut Hair Oil",
+    "price": 23.17,
+    "category": "Hair Care",
+    "stock": 35,
+    "image": "/api/placeholder/Hair%20Care/Natural%20Coconut%20Hair%20Oil"
+  },
+  {
+    "id": 34,
+    "name": "Leave-In Silk Repair Serum",
+    "price": 15.6,
+    "category": "Hair Care",
+    "stock": 37,
+    "image": "/api/placeholder/Hair%20Care/Leave-In%20Silk%20Repair%20Serum"
+  },
+  {
+    "id": 35,
+    "name": "Men Casual Cotton Shirt",
+    "price": 85.92,
+    "category": "Fashion",
+    "stock": 35,
+    "image": "/api/placeholder/Fashion/Men%20Casual%20Cotton%20Shirt"
+  },
+  {
+    "id": 36,
+    "name": "Classic Denim Blue Jacket",
+    "price": 24.45,
+    "category": "Fashion",
+    "stock": 21,
+    "image": "/api/placeholder/Fashion/Classic%20Denim%20Blue%20Jacket"
+  },
+  {
+    "id": 37,
+    "name": "Slim Fit Stretch Chino Pants",
+    "price": 41.3,
+    "category": "Fashion",
+    "stock": 12,
+    "image": "/api/placeholder/Fashion/Slim%20Fit%20Stretch%20Chino%20Pants"
+  },
+  {
+    "id": 38,
+    "name": "Oversized Graphic Hoodie",
+    "price": 47.83,
+    "category": "Fashion",
+    "stock": 10,
+    "image": "/api/placeholder/Fashion/Oversized%20Graphic%20Hoodie"
+  },
+  {
+    "id": 39,
+    "name": "Formal Executive Blazer",
+    "price": 87.25,
+    "category": "Fashion",
+    "stock": 20,
+    "image": "/api/placeholder/Fashion/Formal%20Executive%20Blazer"
+  },
+  {
+    "id": 40,
+    "name": "Unisex Cotton Crewneck T-Shirt",
+    "price": 58.36,
+    "category": "Fashion",
+    "stock": 12,
+    "image": "/api/placeholder/Fashion/Unisex%20Cotton%20Crewneck%20T-Shirt"
+  },
+  {
+    "id": 41,
+    "name": "Winter Thermal Zip-Up Jacket",
+    "price": 39.7,
+    "category": "Fashion",
+    "stock": 39,
+    "image": "/api/placeholder/Fashion/Winter%20Thermal%20Zip-Up%20Jacket"
+  },
+  {
+    "id": 42,
+    "name": "Classic Leather Belt",
+    "price": 82.21,
+    "category": "Fashion",
+    "stock": 24,
+    "image": "/api/placeholder/Fashion/Classic%20Leather%20Belt"
+  },
+  {
+    "id": 43,
+    "name": "Athletic Running Track Pants",
+    "price": 59.72,
+    "category": "Fashion",
+    "stock": 29,
+    "image": "/api/placeholder/Fashion/Athletic%20Running%20Track%20Pants"
+  },
+  {
+    "id": 44,
+    "name": "Casual Summer Linen Shorts",
+    "price": 16.55,
+    "category": "Fashion",
+    "stock": 39,
+    "image": "/api/placeholder/Fashion/Casual%20Summer%20Linen%20Shorts"
+  },
+  {
+    "id": 45,
+    "name": "Organic Honey Jar (1kg)",
+    "price": 24.73,
+    "category": "Groceries",
+    "stock": 28,
+    "image": "/api/placeholder/Groceries/Organic%20Honey%20Jar%20(1kg)"
+  },
+  {
+    "id": 46,
+    "name": "Extra Virgin Olive Oil (1L)",
+    "price": 12.25,
+    "category": "Groceries",
+    "stock": 30,
+    "image": "/api/placeholder/Groceries/Extra%20Virgin%20Olive%20Oil%20(1L)"
+  },
+  {
+    "id": 47,
+    "name": "Premium Almond Nuts Pack (500g)",
+    "price": 58.79,
+    "category": "Groceries",
+    "stock": 17,
+    "image": "/api/placeholder/Groceries/Premium%20Almond%20Nuts%20Pack%20(500g)"
+  },
+  {
+    "id": 48,
+    "name": "Dark Roasted Coffee Beans (1kg)",
+    "price": 37.77,
+    "category": "Groceries",
+    "stock": 20,
+    "image": "/api/placeholder/Groceries/Dark%20Roasted%20Coffee%20Beans%20(1kg)"
+  },
+  {
+    "id": 49,
+    "name": "Pure Organic Green Tea Bags",
+    "price": 70.72,
+    "category": "Groceries",
+    "stock": 15,
+    "image": "/api/placeholder/Groceries/Pure%20Organic%20Green%20Tea%20Bags"
+  },
+  {
+    "id": 50,
+    "name": "Natural Peanut Butter Crunchy",
+    "price": 88.95,
+    "category": "Groceries",
+    "stock": 27,
+    "image": "/api/placeholder/Groceries/Natural%20Peanut%20Butter%20Crunchy"
+  },
+  {
+    "id": 51,
+    "name": "Himalayan Pink Salt Fine (1kg)",
+    "price": 73.04,
+    "category": "Groceries",
+    "stock": 17,
+    "image": "/api/placeholder/Groceries/Himalayan%20Pink%20Salt%20Fine%20(1kg)"
+  },
+  {
+    "id": 52,
+    "name": "Mixed Dry Fruits Assortment",
+    "price": 48.25,
+    "category": "Groceries",
+    "stock": 18,
+    "image": "/api/placeholder/Groceries/Mixed%20Dry%20Fruits%20Assortment"
+  },
+  {
+    "id": 53,
+    "name": "Organic Rolled Oats (1kg)",
+    "price": 57.34,
+    "category": "Groceries",
+    "stock": 34,
+    "image": "/api/placeholder/Groceries/Organic%20Rolled%20Oats%20(1kg)"
+  },
+  {
+    "id": 54,
+    "name": "Artisanal Dark Chocolate Bar",
+    "price": 59.45,
+    "category": "Groceries",
+    "stock": 12,
+    "image": "/api/placeholder/Groceries/Artisanal%20Dark%20Chocolate%20Bar"
+  }
+]

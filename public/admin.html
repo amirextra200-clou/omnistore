@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniStore - Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="brand-logo">🛍️ OmniStore Admin</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Store Front</a>
+            <a href="admin.html" class="nav-link" style="font-weight: bold; color: #ffc107;">Admin Panel</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        
+        <!-- Add Product Form Card -->
+        <div class="form-card">
+            <h2>➕ Add New Product</h2>
+            <form id="add-product-form" onsubmit="handleAddProduct(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="prod-name" placeholder="e.g. Smart Watch Series 8" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="prod-category" required>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Watches">Watches</option>
+                            <option value="Skincare">Skincare</option>
+                            <option value="Hair Care">Hair Care</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Groceries">Groceries</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Price ($)</label>
+                        <input type="number" step="0.01" id="prod-price" placeholder="49.99" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" id="prod-stock" placeholder="30" required>
+                    </div>
+                </div>
+
+                <!-- Product Image Selection (File Upload OR Image URL) -->
+                <div class="form-group">
+                    <label>Product Image (Browse File OR Enter URL)</label>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="file" id="prod-file-input" accept="image/*" style="flex: 1; padding: 6px;" onchange="previewSelectedImage(event)">
+                        <span style="font-weight: bold; color: #64748b;">OR</span>
+                        <input type="url" id="prod-image-url" placeholder="https://example.com/image.jpg" style="flex: 1;" oninput="clearFileInput()">
+                    </div>
+                    <!-- Selected Image Preview -->
+                    <div id="image-preview-box" style="margin-top: 10px; display: none;">
+                        <img id="image-preview" src="" alt="Selected Preview" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Add Product to Store</button>
+            </form>
+        </div>
+
+        <!-- Inventory List Card -->
+        <div class="form-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0;">📦 Current Inventory</h2>
+                <button onclick="clearAllProducts()" class="btn-clear-all">🗑️ Clear All Sample Products</button>
+            </div>
+
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-list">
+                    <!-- Products dynamically loaded -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        let selectedBase64Image = "";
+
+        function previewSelectedImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedBase64Image = e.target.result;
+                    const previewImg = document.getElementById('image-preview');
+                    const previewBox = document.getElementById('image-preview-box');
+                    previewImg.src = selectedBase64Image;
+                    previewBox.style.display = 'block';
+                    document.getElementById('prod-image-url').value = '';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearFileInput() {
+            document.getElementById('prod-file-input').value = '';
+            selectedBase64Image = "";
+            document.getElementById('image-preview-box').style.display = 'none';
+        }
+
+        async function loadInventory() {
+            try {
+                const res = await fetch('/api/products');
+                const result = await res.json();
+                const tbody = document.getElementById('inventory-list');
+                tbody.innerHTML = '';
+
+                if (result.data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #64748b;">Inventory khali hai! Apne products add karein.</td></tr>';
+                    return;
+                }
+
+                result.data.forEach(prod => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>#${prod.id}</td>
+                            <td><img src="${prod.image}" alt="${prod.name}" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px;"></td>
+                            <td style="font-weight: bold; color: #1e293b;">${prod.name}</td>
+                            <td><span style="background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">${prod.category}</span></td>
+                            <td style="color: #16a34a; font-weight: bold;">$${prod.price.toFixed(2)}</td>
+                            <td>${prod.stock}</td>
+                            <td>
+                                <button onclick="deleteProduct(${prod.id})" class="btn-delete">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                console.error("Error loading inventory:", err);
+            }
+        }
+
+        async function handleAddProduct(event) {
+            event.preventDefault();
+            const name = document.getElementById('prod-name').value;
+            const category = document.getElementById('prod-category').value;
+            const price = document.getElementById('prod-price').value;
+            const stock = document.getElementById('prod-stock').value;
+            const urlImage = document.getElementById('prod-image-url').value;
+
+            const image = selectedBase64Image ? selectedBase64Image : urlImage;
+
+            try {
+                const res = await fetch('/api/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, category, price, stock, image })
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    alert(result.message);
+                    document.getElementById('add-product-form').reset();
+                    clearFileInput();
+                    loadInventory();
+                }
+            } catch (err) {
+                console.error("Error adding product:", err);
+            }
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm("Kya aap waqai is product ko delete karna chahte hain?")) return;
+
+            try {
+                const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+                const result = await res.json();
+                if (result.success) {
+                    loadInventory();
+                }
+            } catch (err) {
+                console.error("Error deleting product:", err);
+            }
+        }
+
+        async function clearAllProducts() {
+            if (!confirm("⚠️ ALERT: Kya aap waqai saare sample products clear karna chahte hain? Yeh saara sample data mita dega!")) return;
+
+            try {
+                const res = await fetch('/api/products/clear', { method: 'POST' });
+                const result = await res.json();
+                if (result.success) {
+                    alert(result.message);
+                    loadInventory();
+                }
+            } catch (err) {
+                console.error("Error clearing products:", err);
+            }
+        }
+
+        loadInventory();
+    </script>
+</body>
+</html>
