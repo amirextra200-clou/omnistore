@@ -6,23 +6,33 @@
     <title>OmniStore - Shopping Cart</title>
     <link rel="stylesheet" href="./CSS/style.css">
     <style>
+        /* Ensures page layout keeps footer pinned to the bottom */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            margin: 0;
         }
-        main {
-            flex: 1;
+        main.container {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header / Navigation Bar -->
+    <!-- Header / Navigation Bar (Exact same structure as index.html) -->
     <header class="navbar">
         <div class="logo">
             <a href="index.html">🛍️ OmniStore</a>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." disabled style="opacity: 0.6; cursor: not-allowed;">
         </div>
         <nav class="nav-links">
             <a href="index.html">Home</a>
@@ -33,14 +43,14 @@
 
     <!-- Main Cart Container -->
     <main class="container">
-        <h2 style="text-align: center; margin-top: 30px;">🛒 Your Shopping Cart</h2>
+        <h2 style="text-align: center; margin-top: 30px; color: #192231;">🛒 Your Shopping Cart</h2>
 
         <div id="cart-items" style="margin-top: 40px;">
-            <!-- Cart items render honge -->
+            <!-- Cart items or empty message will render here -->
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (Exact same structure as index.html) -->
     <footer>
         <p>&copy; 2026 OmniStore. All Rights Reserved.</p>
     </footer>
@@ -59,7 +69,7 @@
                 cartContainer.innerHTML = `
                     <div style="text-align: center; padding: 40px 0;">
                         <p style="color: #666; font-size: 20px; font-weight: 500;">Your cart is empty!</p>
-                        <a href="index.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #007bff; color: white; border-radius: 5px; text-decoration: none;">Continue Shopping</a>
+                        <a href="index.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #007bff; color: white; border-radius: 5px; text-decoration: none; font-weight: 500;">Continue Shopping</a>
                     </div>
                 `;
                 return;
@@ -71,9 +81,9 @@
             cart.forEach((item, index) => {
                 total += parseFloat(item.price);
                 html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #ddd; background: #fff; margin-bottom: 10px; border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #ddd; background: #fff; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                         <div>
-                            <h4 style="margin: 0; color: #333;">${item.name}</h4>
+                            <h4 style="margin: 0; color: #192231;">${item.name}</h4>
                             <p style="margin: 5px 0 0 0; color: #28a745; font-weight: bold;">$${parseFloat(item.price).toFixed(2)}</p>
                         </div>
                         <button onclick="removeFromCart(${index})" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Remove</button>
@@ -83,7 +93,7 @@
 
             html += `
                 <div style="text-align: right; margin-top: 20px; padding-right: 15px;">
-                    <h3 style="color: #333;">Total: $${total.toFixed(2)}</h3>
+                    <h3 style="color: #192231;">Total: $${total.toFixed(2)}</h3>
                     <button onclick="clearCart()" style="background: #6c757d; color: white; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; margin-top: 10px;">Clear Cart</button>
                 </div>
             </div>`;
