@@ -50,79 +50,79 @@
     </footer>
 
     <script>
-        // Default 60 Demo Products Array
+        // Default 60 Demo Products Array with direct image links
         const defaultProducts = [
             // Electronics (10 items)
-            { id: 1, name: "Wireless RGB Gaming Mouse", category: "electronics", price: 78.75, image: "https://via.placeholder.com/150" },
-            { id: 2, name: "Mechanical Gaming Keyboard", category: "electronics", price: 62.54, image: "https://via.placeholder.com/150" },
-            { id: 3, name: "Noise Cancelling Headphones", category: "electronics", price: 42.30, image: "https://via.placeholder.com/150" },
-            { id: 4, name: "Ultra HD 4K Gaming Monitor", category: "electronics", price: 57.07, image: "https://via.placeholder.com/150" },
-            { id: 5, name: "Bluetooth Portable Speaker", category: "electronics", price: 16.96, image: "https://via.placeholder.com/150" },
-            { id: 6, name: "Smart Fitness Watch Pro", category: "electronics", price: 89.99, image: "https://via.placeholder.com/150" },
-            { id: 7, name: "HD USB Webcam 1080p", category: "electronics", price: 34.50, image: "https://via.placeholder.com/150" },
-            { id: 8, name: "Ergonomic Laptop Stand", category: "electronics", price: 25.00, image: "https://via.placeholder.com/150" },
-            { id: 9, name: "USB-C Multi-Port Hub", category: "electronics", price: 29.99, image: "https://via.placeholder.com/150" },
-            { id: 10, name: "Fast Wireless Charger Pad", category: "electronics", price: 19.99, image: "https://via.placeholder.com/150" },
+            { id: 1, name: "Wireless RGB Gaming Mouse", category: "electronics", price: 78.75, image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=300&q=80" },
+            { id: 2, name: "Mechanical Gaming Keyboard", category: "electronics", price: 62.54, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&q=80" },
+            { id: 3, name: "Noise Cancelling Headphones", category: "electronics", price: 42.30, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&q=80" },
+            { id: 4, name: "Ultra HD 4K Gaming Monitor", category: "electronics", price: 57.07, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&q=80" },
+            { id: 5, name: "Bluetooth Portable Speaker", category: "electronics", price: 16.96, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&q=80" },
+            { id: 6, name: "Smart Fitness Watch Pro", category: "electronics", price: 89.99, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&q=80" },
+            { id: 7, name: "HD USB Webcam 1080p", category: "electronics", price: 34.50, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&q=80" },
+            { id: 8, name: "Ergonomic Laptop Stand", category: "electronics", price: 25.00, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&q=80" },
+            { id: 9, name: "USB-C Multi-Port Hub", category: "electronics", price: 29.99, image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=300&q=80" },
+            { id: 10, name: "Fast Wireless Charger Pad", category: "electronics", price: 19.99, image: "https://images.unsplash.com/photo-1586816879360-004f5b0c51e3?w=300&q=80" },
 
             // Watches (10 items)
-            { id: 11, name: "Classic Leather Strap Watch", category: "watches", price: 120.00, image: "https://via.placeholder.com/150" },
-            { id: 12, name: "Luxury Chronograph Gold Watch", category: "watches", price: 250.00, image: "https://via.placeholder.com/150" },
-            { id: 13, name: "Minimalist Silver Dial Watch", category: "watches", price: 95.50, image: "https://via.placeholder.com/150" },
-            { id: 14, name: "Digital Sports Shock Watch", category: "watches", price: 45.00, image: "https://via.placeholder.com/150" },
-            { id: 15, name: "Automatic Skeleton Watch", category: "watches", price: 310.00, image: "https://via.placeholder.com/150" },
-            { id: 16, name: "Smart Touchscreen Watch", category: "watches", price: 150.00, image: "https://via.placeholder.com/150" },
-            { id: 17, name: "Vintage Rose Gold Watch", category: "watches", price: 180.00, image: "https://via.placeholder.com/150" },
-            { id: 18, name: "Diving Waterproof Watch 200m", category: "watches", price: 210.00, image: "https://via.placeholder.com/150" },
-            { id: 19, name: "Titanium Executive Watch", category: "watches", price: 290.00, image: "https://via.placeholder.com/150" },
-            { id: 20, name: "Slim Mesh Strap Watch", category: "watches", price: 85.00, image: "https://via.placeholder.com/150" },
+            { id: 11, name: "Classic Leather Strap Watch", category: "watches", price: 120.00, image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=300&q=80" },
+            { id: 12, name: "Luxury Chronograph Gold Watch", category: "watches", price: 250.00, image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300&q=80" },
+            { id: 13, name: "Minimalist Silver Dial Watch", category: "watches", price: 95.50, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&q=80" },
+            { id: 14, name: "Digital Sports Shock Watch", category: "watches", price: 45.00, image: "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=300&q=80" },
+            { id: 15, name: "Automatic Skeleton Watch", category: "watches", price: 310.00, image: "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=300&q=80" },
+            { id: 16, name: "Smart Touchscreen Watch", category: "watches", price: 150.00, image: "https://images.unsplash.com/photo-1510017803434-a899398421b3?w=300&q=80" },
+            { id: 17, name: "Vintage Rose Gold Watch", category: "watches", price: 180.00, image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=300&q=80" },
+            { id: 18, name: "Diving Waterproof Watch 200m", category: "watches", price: 210.00, image: "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=300&q=80" },
+            { id: 19, name: "Titanium Executive Watch", category: "watches", price: 290.00, image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300&q=80" },
+            { id: 20, name: "Slim Mesh Strap Watch", category: "watches", price: 85.00, image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=300&q=80" },
 
             // Skincare (10 items)
-            { id: 21, name: "Hydrating Hyaluronic Serum", category: "skincare", price: 24.99, image: "https://via.placeholder.com/150" },
-            { id: 22, name: "Vitamin C Brightening Cream", category: "skincare", price: 29.99, image: "https://via.placeholder.com/150" },
-            { id: 23, name: "Gentle Foaming Cleanser", category: "skincare", price: 18.50, image: "https://via.placeholder.com/150" },
-            { id: 24, name: "Niacinamide Pore Refining Serum", category: "skincare", price: 22.00, image: "https://via.placeholder.com/150" },
-            { id: 25, name: "Aloe Vera Soothing Gel", category: "skincare", price: 12.99, image: "https://via.placeholder.com/150" },
-            { id: 26, name: "Daily Sunscreen SPF 50", category: "skincare", price: 21.50, image: "https://via.placeholder.com/150" },
-            { id: 27, name: "Exfoliating AHA/BHA Toner", category: "skincare", price: 26.00, image: "https://via.placeholder.com/150" },
-            { id: 28, name: "Night Repair Moisturizer", category: "skincare", price: 35.00, image: "https://via.placeholder.com/150" },
-            { id: 29, name: "Under Eye Gel Mask", category: "skincare", price: 15.99, image: "https://via.placeholder.com/150" },
-            { id: 30, name: "Charcoal Deep Pore Face Mask", category: "skincare", price: 19.00, image: "https://via.placeholder.com/150" },
+            { id: 21, name: "Hydrating Hyaluronic Serum", category: "skincare", price: 24.99, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&q=80" },
+            { id: 22, name: "Vitamin C Brightening Cream", category: "skincare", price: 29.99, image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&q=80" },
+            { id: 23, name: "Gentle Foaming Cleanser", category: "skincare", price: 18.50, image: "https://images.unsplash.com/photo-1567332757288-43d1fb525144?w=300&q=80" },
+            { id: 24, name: "Niacinamide Pore Refining Serum", category: "skincare", price: 22.00, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&q=80" },
+            { id: 25, name: "Aloe Vera Soothing Gel", category: "skincare", price: 12.99, image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&q=80" },
+            { id: 26, name: "Daily Sunscreen SPF 50", category: "skincare", price: 21.50, image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=300&q=80" },
+            { id: 27, name: "Exfoliating AHA/BHA Toner", category: "skincare", price: 26.00, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&q=80" },
+            { id: 28, name: "Night Repair Moisturizer", category: "skincare", price: 35.00, image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&q=80" },
+            { id: 29, name: "Under Eye Gel Mask", category: "skincare", price: 15.99, image: "https://images.unsplash.com/photo-1567332757288-43d1fb525144?w=300&q=80" },
+            { id: 30, name: "Charcoal Deep Pore Face Mask", category: "skincare", price: 19.00, image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=300&q=80" },
 
             // Hair Care (10 items)
-            { id: 31, name: "Argan Oil Repair Shampoo", category: "haircare", price: 16.50, image: "https://via.placeholder.com/150" },
-            { id: 32, name: "Keratin Smooth Conditioner", category: "haircare", price: 17.50, image: "https://via.placeholder.com/150" },
-            { id: 33, name: "Nourishing Hair Serum", category: "haircare", price: 21.00, image: "https://via.placeholder.com/150" },
-            { id: 34, name: "Deep Conditioning Hair Mask", category: "haircare", price: 24.00, image: "https://via.placeholder.com/150" },
-            { id: 35, name: "Scalp Revitalizing Oil", category: "haircare", price: 19.99, image: "https://via.placeholder.com/150" },
-            { id: 36, name: "Biotin Volume Growth Spray", category: "haircare", price: 22.50, image: "https://via.placeholder.com/150" },
-            { id: 37, name: "Anti-Dandruff Tea Tree Shampoo", category: "haircare", price: 15.99, image: "https://via.placeholder.com/150" },
-            { id: 38, name: "Ionic Hair Dryer Pro", category: "haircare", price: 49.99, image: "https://via.placeholder.com/150" },
-            { id: 39, name: "Ceramic Hair Straightener", category: "haircare", price: 39.99, image: "https://via.placeholder.com/150" },
-            { id: 40, name: "Heat Protectant Spray", category: "haircare", price: 14.50, image: "https://via.placeholder.com/150" },
+            { id: 31, name: "Argan Oil Repair Shampoo", category: "haircare", price: 16.50, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=300&q=80" },
+            { id: 32, name: "Keratin Smooth Conditioner", category: "haircare", price: 17.50, image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&q=80" },
+            { id: 33, name: "Nourishing Hair Serum", category: "haircare", price: 21.00, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=300&q=80" },
+            { id: 34, name: "Deep Conditioning Hair Mask", category: "haircare", price: 24.00, image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&q=80" },
+            { id: 35, name: "Scalp Revitalizing Oil", category: "haircare", price: 19.99, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=300&q=80" },
+            { id: 36, name: "Biotin Volume Growth Spray", category: "haircare", price: 22.50, image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&q=80" },
+            { id: 37, name: "Anti-Dandruff Tea Tree Shampoo", category: "haircare", price: 15.99, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=300&q=80" },
+            { id: 38, name: "Ionic Hair Dryer Pro", category: "haircare", price: 49.99, image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&q=80" },
+            { id: 39, name: "Ceramic Hair Straightener", category: "haircare", price: 39.99, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=300&q=80" },
+            { id: 40, name: "Heat Protectant Spray", category: "haircare", price: 14.50, image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&q=80" },
 
             // Fashion (10 items)
-            { id: 41, name: "Classic Denim Jacket", category: "fashion", price: 55.00, image: "https://via.placeholder.com/150" },
-            { id: 42, name: "Slim Fit Cotton T-Shirt", category: "fashion", price: 19.99, image: "https://via.placeholder.com/150" },
-            { id: 43, name: "Casual Running Sneakers", category: "fashion", price: 65.00, image: "https://via.placeholder.com/150" },
-            { id: 44, name: "Leather Crossbody Bag", category: "fashion", price: 45.00, image: "https://via.placeholder.com/150" },
-            { id: 45, name: "Polarized Aviator Sunglasses", category: "fashion", price: 29.99, image: "https://via.placeholder.com/150" },
-            { id: 46, name: "Fleece Pullover Hoodie", category: "fashion", price: 38.00, image: "https://via.placeholder.com/150" },
-            { id: 47, name: "Formal Button-Down Shirt", category: "fashion", price: 32.50, image: "https://via.placeholder.com/150" },
-            { id: 48, name: "Chino Stretch Pants", category: "fashion", price: 42.00, image: "https://via.placeholder.com/150" },
-            { id: 49, name: "Classic Leather Belt", category: "fashion", price: 22.00, image: "https://via.placeholder.com/150" },
-            { id: 50, name: "Wool Knit Beanie Hat", category: "fashion", price: 15.00, image: "https://via.placeholder.com/150" },
+            { id: 41, name: "Classic Denim Jacket", category: "fashion", price: 55.00, image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?w=300&q=80" },
+            { id: 42, name: "Slim Fit Cotton T-Shirt", category: "fashion", price: 19.99, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=300&q=80" },
+            { id: 43, name: "Casual Running Sneakers", category: "fashion", price: 65.00, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80" },
+            { id: 44, name: "Leather Crossbody Bag", category: "fashion", price: 45.00, image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&q=80" },
+            { id: 45, name: "Polarized Aviator Sunglasses", category: "fashion", price: 29.99, image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300&q=80" },
+            { id: 46, name: "Fleece Pullover Hoodie", category: "fashion", price: 38.00, image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&q=80" },
+            { id: 47, name: "Formal Button-Down Shirt", category: "fashion", price: 32.50, image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=300&q=80" },
+            { id: 48, name: "Chino Stretch Pants", category: "fashion", price: 42.00, image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300&q=80" },
+            { id: 49, name: "Classic Leather Belt", category: "fashion", price: 22.00, image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300&q=80" },
+            { id: 50, name: "Wool Knit Beanie Hat", category: "fashion", price: 15.00, image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=300&q=80" },
 
             // Groceries (10 items)
-            { id: 51, name: "Organic Cold Pressed Olive Oil", category: "groceries", price: 14.99, image: "https://via.placeholder.com/150" },
-            { id: 52, name: "Premium Basmati Rice 5kg", category: "groceries", price: 18.50, image: "https://via.placeholder.com/150" },
-            { id: 53, name: "Raw Unfiltered Honey", category: "groceries", price: 11.99, image: "https://via.placeholder.com/150" },
-            { id: 54, name: "Organic Whole Almonds 500g", category: "groceries", price: 12.50, image: "https://via.placeholder.com/150" },
-            { id: 55, name: "Dark Chocolate 85% Cocoa", category: "groceries", price: 4.99, image: "https://via.placeholder.com/150" },
-            { id: 56, name: "Green Tea Organic Leaves", category: "groceries", price: 8.99, image: "https://via.placeholder.com/150" },
-            { id: 57, name: "Roasted Arabica Coffee Beans", category: "groceries", price: 15.99, image: "https://via.placeholder.com/150" },
-            { id: 58, name: "Oat Milk Unsweetened 1L", category: "groceries", price: 3.99, image: "https://via.placeholder.com/150" },
-            { id: 59, name: "Himalayan Pink Salt", category: "groceries", price: 5.50, image: "https://via.placeholder.com/150" },
-            { id: 60, name: "Mixed Berry Granola Cereal", category: "groceries", price: 7.25, image: "https://via.placeholder.com/150" }
+            { id: 51, name: "Organic Cold Pressed Olive Oil", category: "groceries", price: 14.99, image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&q=80" },
+            { id: 52, name: "Premium Basmati Rice 5kg", category: "groceries", price: 18.50, image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&q=80" },
+            { id: 53, name: "Raw Unfiltered Honey", category: "groceries", price: 11.99, image: "https://images.unsplash.com/photo-1587049352847-4a222e784d38?w=300&q=80" },
+            { id: 54, name: "Organic Whole Almonds 500g", category: "groceries", price: 12.50, image: "https://images.unsplash.com/photo-1508061253366-f7da154b6d46?w=300&q=80" },
+            { id: 55, name: "Dark Chocolate 85% Cocoa", category: "groceries", price: 4.99, image: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=300&q=80" },
+            { id: 56, name: "Green Tea Organic Leaves", category: "groceries", price: 8.99, image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&q=80" },
+            { id: 57, name: "Roasted Arabica Coffee Beans", category: "groceries", price: 15.99, image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=300&q=80" },
+            { id: 58, name: "Oat Milk Unsweetened 1L", category: "groceries", price: 3.99, image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&q=80" },
+            { id: 59, name: "Himalayan Pink Salt", category: "groceries", price: 5.50, image: "https://images.unsplash.com/photo-1518112166588-b2a15287f3b6?w=300&q=80" },
+            { id: 60, name: "Mixed Berry Granola Cereal", category: "groceries", price: 7.25, image: "https://images.unsplash.com/photo-1517093887844-f1ef4ed539f1?w=300&q=80" }
         ];
 
         let allProducts = [];
@@ -151,8 +151,8 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-                    <div style="text-align: center; margin-bottom: 15px;">
-                        <img src="${product.image}" alt="${product.name}" style="max-width: 100%; height: 140px; object-fit: contain; border-radius: 8px;">
+                    <div style="text-align: center; margin-bottom: 15px; background: #f1f5f9; border-radius: 8px; overflow: hidden; height: 160px; display: flex; align-items: center; justify-content: center;">
+                        <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div>
                         <h4 style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 5px;">${product.name}</h4>
