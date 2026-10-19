@@ -6,10 +6,14 @@
     <title>OmniStore - Shopping Cart</title>
     <link rel="stylesheet" href="./CSS/style.css">
     <style>
-        /* Ensures page layout keeps footer pinned to the bottom */
+        * {
+            box-sizing: border-box;
+        }
         html, body {
             height: 100%;
             margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
         }
         body {
             display: flex;
@@ -18,15 +22,67 @@
         }
         main.container {
             flex: 1 0 auto;
+            padding: 20px;
         }
+
+        /* Navbar exact styling as Home Page */
+        header.navbar {
+            background-color: #192231 !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            color: #ffffff;
+        }
+        header.navbar .logo a {
+            color: #ffffff !important;
+            font-weight: bold;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        header.navbar .search-box input {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 250px;
+        }
+        header.navbar .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        header.navbar .nav-links a {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            font-weight: 500;
+        }
+        header.navbar .nav-links a.cart-btn {
+            background-color: #28a745;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: #ffffff !important;
+        }
+
+        /* Footer exact styling as Home Page */
         footer {
+            background-color: #192231 !important;
+            color: #ffffff !important;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            margin-top: auto;
             flex-shrink: 0;
+        }
+        footer p {
+            margin: 0;
+            color: #ffffff !important;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header / Navigation Bar (Exact same structure as index.html) -->
+    <!-- Header / Navigation Bar -->
     <header class="navbar">
         <div class="logo">
             <a href="index.html">🛍️ OmniStore</a>
@@ -37,7 +93,7 @@
         <nav class="nav-links">
             <a href="index.html">Home</a>
             <a href="admin.html">Admin Panel</a>
-            <a href="cart.html" class="cart-btn active">🛒 Cart (<span id="cart-count">0</span>)</a>
+            <a href="cart.html" class="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</a>
         </nav>
     </header>
 
@@ -50,7 +106,7 @@
         </div>
     </main>
 
-    <!-- Footer (Exact same structure as index.html) -->
+    <!-- Footer -->
     <footer>
         <p>&copy; 2026 OmniStore. All Rights Reserved.</p>
     </footer>
