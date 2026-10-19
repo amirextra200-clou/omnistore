@@ -6,77 +6,49 @@
     <title>OmniStore - Shopping Cart</title>
     <link rel="stylesheet" href="./CSS/style.css">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-        html, body {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        main.container {
-            flex: 1 0 auto;
-            padding: 20px;
-        }
-
-        /* Navbar exact styling as Home Page */
-        header.navbar {
-            background-color: #192231 !important;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            color: #ffffff;
-        }
-        header.navbar .logo a {
-            color: #ffffff !important;
-            font-weight: bold;
-            font-size: 20px;
-            text-decoration: none;
-        }
-        header.navbar .search-box input {
-            padding: 8px 12px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            width: 250px;
-        }
-        header.navbar .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        header.navbar .nav-links a {
-            color: #ffffff !important;
-            text-decoration: none !important;
-            font-weight: 500;
-        }
-        header.navbar .nav-links a.cart-btn {
-            background-color: #28a745;
-            padding: 8px 16px;
-            border-radius: 5px;
-            color: #ffffff !important;
-        }
-
-        /* Footer exact styling as Home Page */
-        footer {
-            background-color: #192231 !important;
-            color: #ffffff !important;
-            text-align: center;
-            padding: 20px;
+        /* Checkout Modal Styling */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            margin-top: auto;
-            flex-shrink: 0;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
-        footer p {
-            margin: 0;
-            color: #ffffff !important;
+        .modal-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .modal-card h3 {
+            margin-top: 0;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+        .form-field {
+            margin-bottom: 15px;
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #334155;
             font-size: 14px;
+        }
+        .form-field input, .form-field textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -99,12 +71,37 @@
 
     <!-- Main Cart Container -->
     <main class="container">
-        <h2 style="text-align: center; margin-top: 30px; color: #192231;">🛒 Your Shopping Cart</h2>
+        <h2 style="text-align: center; margin-top: 30px; color: #0f172a;">🛒 Your Shopping Cart</h2>
 
-        <div id="cart-items" style="margin-top: 40px;">
+        <div id="cart-items" style="margin-top: 30px;">
             <!-- Cart items or empty message will render here -->
         </div>
     </main>
+
+    <!-- Checkout Modal Form -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-card">
+            <h3>📦 Complete Your Order</h3>
+            <form id="checkoutForm">
+                <div class="form-field">
+                    <label>Full Name</label>
+                    <input type="text" id="custName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-field">
+                    <label>Phone Number</label>
+                    <input type="text" id="custPhone" placeholder="Enter mobile number" required>
+                </div>
+                <div class="form-field">
+                    <label>Shipping Address</label>
+                    <textarea id="custAddress" rows="3" placeholder="Enter delivery address" required></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" style="flex: 1; background-color: #16a34a; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer;">Confirm & Place Order</button>
+                    <button type="button" onclick="closeCheckoutModal()" style="background-color: #64748b; color: white; border: none; padding: 12px 18px; border-radius: 6px; font-weight: bold; cursor: pointer;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -123,34 +120,37 @@
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = `
-                    <div style="text-align: center; padding: 40px 0;">
-                        <p style="color: #666; font-size: 20px; font-weight: 500;">Your cart is empty!</p>
-                        <a href="index.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #007bff; color: white; border-radius: 5px; text-decoration: none; font-weight: 500;">Continue Shopping</a>
+                    <div style="text-align: center; padding: 50px 0;">
+                        <p style="color: #64748b; font-size: 20px; font-weight: 600;">Your cart is empty!</p>
+                        <a href="index.html" style="display: inline-block; margin-top: 15px; padding: 10px 22px; background-color: #2563eb; color: white; border-radius: 6px; text-decoration: none; font-weight: 600;">Continue Shopping</a>
                     </div>
                 `;
                 return;
             }
 
             let total = 0;
-            let html = '<div class="cart-list" style="max-width: 800px; margin: 0 auto;">';
+            let html = '<div style="max-width: 800px; margin: 0 auto;">';
 
             cart.forEach((item, index) => {
                 total += parseFloat(item.price);
                 html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #ddd; background: #fff; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
                         <div>
-                            <h4 style="margin: 0; color: #192231;">${item.name}</h4>
-                            <p style="margin: 5px 0 0 0; color: #28a745; font-weight: bold;">$${parseFloat(item.price).toFixed(2)}</p>
+                            <h4 style="margin: 0 0 6px 0; color: #0f172a; font-size: 16px;">${item.name}</h4>
+                            <p style="margin: 0; color: #16a34a; font-weight: bold; font-size: 16px;">$${parseFloat(item.price).toFixed(2)}</p>
                         </div>
-                        <button onclick="removeFromCart(${index})" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Remove</button>
+                        <button onclick="removeFromCart(${index})" style="background-color: #dc2626; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer;">Remove</button>
                     </div>
                 `;
             });
 
             html += `
-                <div style="text-align: right; margin-top: 20px; padding-right: 15px;">
-                    <h3 style="color: #192231;">Total: $${total.toFixed(2)}</h3>
-                    <button onclick="clearCart()" style="background: #6c757d; color: white; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; margin-top: 10px;">Clear Cart</button>
+                <div style="text-align: right; margin-top: 25px; padding: 15px; background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <h3 style="color: #0f172a; font-size: 20px; margin-bottom: 15px;">Total: $${total.toFixed(2)}</h3>
+                    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                        <button onclick="clearCart()" style="background-color: #64748b; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 600; cursor: pointer;">Clear Cart</button>
+                        <button onclick="openCheckoutModal()" style="background-color: #16a34a; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">Proceed to Place Order 🚀</button>
+                    </div>
                 </div>
             </div>`;
 
@@ -173,11 +173,29 @@
 
         function updateCartCount() {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const cartBadge = document.getElementById('cart-count');
-            if (cartBadge) {
-                cartBadge.innerText = cart.length;
+            const badge = document.getElementById('cart-count');
+            if (badge) {
+                badge.innerText = cart.length;
             }
         }
+
+        function openCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            alert(`Thank you, ${name}! Your order has been placed successfully. 🎉`);
+            localStorage.removeItem('cart');
+            closeCheckoutModal();
+            displayCart();
+            updateCartCount();
+        });
     </script>
 </body>
 </html>
