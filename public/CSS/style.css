@@ -382,3 +382,80 @@ body {
 .btn-delete:hover {
     background: #dc2626;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Sticky Footer and Page Layout Setup */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main.container {
+    flex: 1 0 auto;
+}
+
+footer {
+    background-color: #192231 !important;
+    color: #ffffff !important;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+footer p {
+    margin: 0;
+    color: #ffffff !important;
+}
+
+/* Navbar Styling Consistency */
+header.navbar {
+    background-color: #192231 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    color: #ffffff;
+}
+
+header.navbar .logo a {
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+header.navbar .nav-links a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+header.navbar .nav-links a.cart-btn {
+    background-color: #28a745;
+    padding: 8px 16px;
+    border-radius: 5px;
+    color: #ffffff !important;
+}
