@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniStore Admin</title>
+    <title>OmniStore - Mart Admin & Inventory Dashboard</title>
     <link rel="stylesheet" href="./CSS/style.css">
 </head>
 <body>
@@ -11,141 +11,169 @@
     <!-- Header / Navigation Bar -->
     <header class="navbar">
         <div class="logo">
-            <a href="index.html">🛍️ OmniStore Admin</a>
+            <a href="index.html">🛍️ OmniStore Mart</a>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search inventory..." disabled style="opacity: 0.6; cursor: not-allowed;">
         </div>
         <nav class="nav-links">
             <a href="index.html">Store Front</a>
             <a href="admin.html" class="active">Admin Panel</a>
+            <a href="cart.html" class="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</a>
         </nav>
     </header>
 
     <!-- Main Admin Container -->
     <main class="container">
-        <div class="form-card" style="background: #ffffff; padding: 30px; border-radius: 12px; max-width: 800px; margin: 30px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <h2>➕ Add New Product</h2>
+        <h2>🏪 Mart Owner Dashboard & Inventory</h2>
+
+        <!-- Stats Overview Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background: white; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <p style="margin: 0; color: #64748b; font-size: 14px; font-weight: 600;">Total Products in Mart</p>
+                <h3 id="totalProductsCount" style="margin: 8px 0 0 0; color: #0f172a; font-size: 24px;">0</h3>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <p style="margin: 0; color: #64748b; font-size: 14px; font-weight: 600;">Total Mart Orders Received</p>
+                <h3 id="totalOrdersCount" style="margin: 8px 0 0 0; color: #16a34a; font-size: 24px;">0</h3>
+            </div>
+        </div>
+
+        <!-- Add New Product Form Card -->
+        <div class="form-card" style="margin-bottom: 40px;">
+            <h3 style="margin-bottom: 20px; color: #0f172a;">➕ Add New Product to Mart Inventory</h3>
             <form id="addProductForm">
-                <div style="display: flex; gap: 20px; margin-bottom: 15px;">
-                    <div style="flex: 1;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Product Name</label>
-                        <input type="text" id="productName" placeholder="e.g. Rolex watch" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                    </div>
-                    <div style="flex: 1;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Category</label>
-                        <select id="productCategory" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="prodName" placeholder="e.g. Fresh Milk 1L" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="prodCategory" required>
                             <option value="electronics">Electronics</option>
-                            <option value="watches" selected>Watches</option>
+                            <option value="watches">Watches</option>
                             <option value="skincare">Skincare</option>
                             <option value="haircare">Hair Care</option>
                             <option value="fashion">Fashion</option>
                             <option value="groceries">Groceries</option>
                         </select>
                     </div>
-                </div>
-
-                <div style="display: flex; gap: 20px; margin-bottom: 15px;">
-                    <div style="flex: 1;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Price ($)</label>
-                        <input type="number" id="productPrice" step="0.01" placeholder="400.00" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                    </div>
-                    <div style="flex: 1;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Stock Quantity</label>
-                        <input type="number" id="productStock" placeholder="1" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                    <div class="form-group">
+                        <label>Price ($)</label>
+                        <input type="number" step="0.01" id="prodPrice" placeholder="e.g. 5.99" required>
                     </div>
                 </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: bold; margin-bottom: 5px;">Product Image (Browse File OR Enter URL)</label>
-                    <div style="display: flex; gap: 15px; align-items: center;">
-                        <input type="file" id="productFileInput" accept="image/*" style="flex: 1;">
-                        <span>OR</span>
-                        <input type="text" id="productUrlInput" placeholder="https://example.com/image.jpg" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                    </div>
-                    <div style="margin-top: 15px;">
-                        <img id="imagePreview" src="" alt="Preview" style="max-width: 120px; display: none; border-radius: 6px;">
-                    </div>
-                </div>
-
-                <button type="submit" id="submitBtn" style="background-color: #0d6efd; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;">Add Product to Store</button>
+                <button type="submit" class="submit-btn" style="width: 100%; margin-top: 10px;">Save Product to Mart Inventory</button>
             </form>
+        </div>
+
+        <!-- Mart Orders Log Section -->
+        <div class="form-card">
+            <h3 style="margin-bottom: 20px; color: #0f172a;">📋 Mart Customer Orders Log</h3>
+            <div id="martOrdersContainer">
+                <p style="color: #64748b;">No orders received in the mart yet.</p>
+            </div>
         </div>
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 OmniStore. All Rights Reserved.</p>
+        <p>&copy; 2026 OmniStore Mart. All Rights Reserved.</p>
     </footer>
 
     <script>
-        const fileInput = document.getElementById('productFileInput');
-        const urlInput = document.getElementById('productUrlInput');
-        const preview = document.getElementById('imagePreview');
-        let selectedImageData = '';
-
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    selectedImageData = event.target.result;
-                    preview.src = selectedImageData;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-                urlInput.value = '';
-            }
+        document.addEventListener("DOMContentLoaded", () => {
+            updateDashboardStats();
+            loadMartOrders();
+            updateCartCount();
         });
 
-        urlInput.addEventListener('input', function() {
-            if (urlInput.value.trim() !== '') {
-                selectedImageData = urlInput.value.trim();
-                preview.src = selectedImageData;
-                preview.style.display = 'block';
-                fileInput.value = '';
-            } else {
-                preview.style.display = 'none';
-            }
-        });
-
+        // Handle Add New Product
         document.getElementById('addProductForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const name = document.getElementById('productName').value.trim();
-            const category = document.getElementById('productCategory').value;
-            const price = parseFloat(document.getElementById('productPrice').value);
-            const stock = parseInt(document.getElementById('productStock').value);
-            const image = selectedImageData || urlInput.value.trim() || 'https://via.placeholder.com/150';
+            const name = document.getElementById('prodName').value.trim();
+            const category = document.getElementById('prodCategory').value;
+            const price = parseFloat(document.getElementById('prodPrice').value);
 
+            // Generate category-themed SVG image automatically for the new mart product
             const newProduct = {
                 id: Date.now(),
                 name: name,
                 category: category,
                 price: price,
-                stock: stock,
-                image: image
+                image: generateAdminCategorySvg(name, category)
             };
 
             let customProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
             customProducts.push(newProduct);
+            localStorage.setItem('customProducts', JSON.stringify(customProducts));
 
-            try {
-                localStorage.setItem('customProducts', JSON.stringify(customProducts));
-
-                const btn = document.getElementById('submitBtn');
-                btn.innerText = "Added Successfully! ✓";
-                btn.style.backgroundColor = "#28a745";
-
-                setTimeout(() => {
-                    btn.innerText = "Add Product to Store";
-                    btn.style.backgroundColor = "#0d6efd";
-                    document.getElementById('addProductForm').reset();
-                    preview.style.display = 'none';
-                    selectedImageData = '';
-                }, 1500);
-
-            } catch (err) {
-                alert("Error: Image size is too large for local storage. Please try using an Image URL or a smaller image file.");
-            }
+            alert(`Success! "${name}" has been added to the mart inventory.`);
+            document.getElementById('addProductForm').reset();
+            updateDashboardStats();
         });
+
+        function generateAdminCategorySvg(title, category) {
+            const colors = {
+                electronics: { bg: "#1e293b", icon: "⚡" },
+                watches: { bg: "#422006", icon: "⌚" },
+                skincare: { bg: "#0284c7", icon: "💧" },
+                haircare: { bg: "#064e3b", icon: "🌿" },
+                fashion: { bg: "#312e81", icon: "👕" },
+                groceries: { bg: "#78350f", icon: "🛒" }
+            };
+            const theme = colors[category] || colors.electronics;
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+                <rect width="300" height="200" fill="${theme.bg}"/>
+                <text x="150" y="85" fill="#ffffff" font-family="sans-serif" font-size="36" text-anchor="middle">${theme.icon}</text>
+                <text x="150" y="130" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">${title}</text>
+            </svg>`;
+            return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+        }
+
+        function updateDashboardStats() {
+            let customProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
+            // Assuming 60 default products + custom products added by client
+            document.getElementById('totalProductsCount').innerText = 60 + customProducts.length;
+
+            let orders = JSON.parse(localStorage.getItem('martOrders')) || [];
+            document.getElementById('totalOrdersCount').innerText = orders.length;
+        }
+
+        function loadMartOrders() {
+            let orders = JSON.parse(localStorage.getItem('martOrders')) || [];
+            let container = document.getElementById('martOrdersContainer');
+
+            if (orders.length === 0) {
+                container.innerHTML = '<p style="color: #64748b; font-size: 15px;">No active orders inside the mart yet.</p>';
+                return;
+            }
+
+            let html = '';
+            orders.slice().reverse().forEach((order, index) => {
+                html += `
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 8px; margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <strong style="color: #0f172a;">Customer: ${order.name}</strong>
+                            <span style="color: #16a34a; font-weight: bold;">Total: $${order.total}</span>
+                        </div>
+                        <p style="margin: 4px 0; color: #475569; font-size: 14px;">📞 Phone: ${order.phone} | 📍 Address: ${order.address}</p>
+                        <p style="margin: 4px 0; color: #334155; font-size: 13px;">🛒 Items: ${order.items}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const badge = document.getElementById('cart-count');
+            if (badge) {
+                badge.innerText = cart.length;
+            }
+        }
     </script>
 </body>
 </html>
