@@ -1,407 +1,20 @@
-/* General Layout */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* ==========================================
+   1. RESET & GLOBAL STYLES
+   ================================          */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #f4f6f9;
-    color: #333;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
-
-.page-title {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-    color: #2c3e50;
-}
-
-
-
-
-
-
-
-/* Navbar Styling */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1e293b;
-    padding: 15px 30px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 1000;
-}
-
-.brand-logo {
-    color: #ffffff;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.nav-link {
-    color: #cbd5e1;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.nav-link:hover {
-    color: #ffffff;
-}
-
-.nav-link-admin {
-    color: #ffc107;
-    font-weight: bold;
-}
-
-.nav-link-cart {
-    background-color: #28a745;
-    color: white !important;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-}
-
-
-
-
-
-
-
-/* Dropdown Menu */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-btn {
-    background: none;
-    border: none;
-    color: #cbd5e1;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #ffffff;
-    min-width: 180px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
-    border-radius: 6px;
-    z-index: 100;
-    top: 100%;
-    left: 0;
-}
-
-.dropdown-content a {
-    color: #333;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 0.95rem;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f5f9;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-
-
-
-
-
-
-
-
-/* Product Grid System */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 25px;
-}
-
-/* Product Card Components */
-.product-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 20px;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-}
-
-.product-image {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-.product-title {
-    margin: 5px 0;
-    font-size: 1.1rem;
-    color: #1e293b;
-}
-
-.product-category {
-    margin: 2px 0 10px 0;
-    color: #64748b;
-    font-size: 0.88rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.product-price {
-    margin: 5px 0 15px 0;
-    color: #16a34a;
-    font-weight: bold;
-    font-size: 1.25rem;
-}
-
-.btn-add-cart {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
+html, body {
     width: 100%;
-    margin-top: auto;
-    transition: background 0.2s;
-}
-
-.btn-add-cart:hover {
-    background-color: #1d4ed8;
-}
-
-.no-products {
-    color: #64748b;
-    grid-column: 1 / -1;
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-
-
-
-
-
-
-
-
-
-
-/* Footer Styling */
-.footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #1e293b;
-    color: #94a3b8;
-    margin-top: 50px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* General Layout & Navbar */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+    max-width: 100%;
+    overflow-x: hidden;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8fafc;
     color: #1e293b;
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0f172a;
-    padding: 15px 30px;
-    color: white;
-}
-
-.brand-logo {
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.nav-link {
-    color: #cbd5e1;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.nav-link:hover {
-    color: white;
-}
-
-/* Admin Panel Styling */
-.admin-container {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 20px;
-}
-
-.form-card {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    margin-bottom: 30px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: #334155;
-}
-
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 0.95rem;
-    outline: none;
-}
-
-.btn-submit {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.btn-submit:hover {
-    background: #1d4ed8;
-}
-
-.btn-clear-all {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    float: right;
-}
-
-.btn-clear-all:hover {
-    background: #b91c1c;
-}
-
-.product-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin-top: 15px;
-}
-
-.product-table th, .product-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.product-table th {
-    background: #f8fafc;
-    color: #475569;
-}
-
-.btn-delete {
-    background: #ef4444;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-delete:hover {
-    background: #dc2626;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Sticky Footer and Page Layout Setup */
-html, body {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
 }
 
 body {
@@ -410,52 +23,232 @@ body {
     min-height: 100vh;
 }
 
-main.container {
-    flex: 1 0 auto;
+/* ==========================================
+   2. NAVBAR STYLING
+   ================================          */
+.navbar {
+    background-color: #0f172a;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 32px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
-footer {
-    background-color: #192231 !important;
+.navbar .logo a {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.search-box input {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #ffffff;
+    width: 300px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: #94a3b8;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #ffffff;
+}
+
+.nav-links a.cart-btn {
+    background-color: #28a745;
     color: #ffffff !important;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.nav-links a.cart-btn:hover {
+    background-color: #218838;
+}
+
+/* ==========================================
+   3. MAIN CONTAINER & LAYOUT
+   ================================          */
+main.container {
+    flex: 1 0 auto;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+main.container h2 {
     text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 24px;
+}
+
+/* ==========================================
+   4. CATEGORY FILTER BUTTONS
+   ================================          */
+.category-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover, 
+.filter-btn.active {
+    background-color: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+}
+
+/* ==========================================
+   5. PRODUCT GRID & CARDS
+   ================================          */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+.product-card {
+    background: #ffffff;
+    border-radius: 12px;
     padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================
+   6. ADMIN PANEL & FORMS
+   ================================          */
+.form-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #334155;
+}
+
+input[type="text"], 
+input[type="number"], 
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    background-color: #ffffff;
+}
+
+input[type="text"]:focus, 
+input[type="number"]:focus, 
+select:focus {
+    border-color: #6366f1;
+}
+
+.submit-btn {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #0b5ed7;
+}
+
+/* ==========================================
+   7. FOOTER STYLING (Sticky Bottom)
+   ================================          */
+footer {
+    background-color: #0f172a;
+    color: #ffffff;
+    text-align: center;
+    padding: 24px;
     width: 100%;
     margin-top: auto;
     flex-shrink: 0;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 footer p {
     margin: 0;
-    color: #ffffff !important;
-}
-
-/* Navbar Styling Consistency */
-header.navbar {
-    background-color: #192231 !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    color: #ffffff;
-}
-
-header.navbar .logo a {
-    color: #ffffff !important;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-header.navbar .nav-links a {
-    color: #ffffff !important;
-    text-decoration: none !important;
-    margin-left: 20px;
-    font-weight: 500;
-}
-
-header.navbar .nav-links a.cart-btn {
-    background-color: #28a745;
-    padding: 8px 16px;
-    border-radius: 5px;
-    color: #ffffff !important;
+    color: #94a3b8;
+    font-size: 14px;
 }
