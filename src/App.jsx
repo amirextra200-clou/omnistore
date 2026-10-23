@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Cart from './pages/Cart'; // Sahi path: pages folder ke andar hai
+import Cart from './pages/Cart';
 
 function App() {
-  // Cart state
+  // Cart state with localStorage
   const [cart, setCart] = useState(() => {
     try {
       const savedCart = localStorage.getItem('omnistore_cart');
@@ -15,12 +15,12 @@ function App() {
 
   // Products state (Store Front ke liye)
   const [products, setProducts] = useState([
-    { id: 1, title: 'Mechanical Gaming Keyboard', price: 62.54, image: '' },
-    { id: 2, title: 'Wireless RGB Gaming Mouse', price: 29.99, image: '' },
-    { id: 3, title: 'UltraWide Gaming Monitor', price: 249.99, image: '' },
+    { id: 1, title: 'Mechanical Gaming Keyboard', price: 62.54 },
+    { id: 2, title: 'Wireless RGB Gaming Mouse', price: 29.99 },
+    { id: 3, title: 'UltraWide Gaming Monitor', price: 249.99 },
   ]);
 
-  // Save cart to localStorage so it doesn't disappear on reload
+  // Save cart to localStorage
   useEffect(() => {
     localStorage.setItem('omnistore_cart', JSON.stringify(cart));
   }, [cart]);
@@ -75,17 +75,17 @@ function App() {
 
       {/* Routes */}
       <Routes>
-        {/* Store Front Page */}
+        {/* Store Front Page (Fixed Grid) */}
         <Route 
           path="/" 
           element={
-            <div style={{ padding: '30px', maxWidth: '1000px', margin: '0 auto' }}>
+            <div style={{ padding: '30px', maxWidth: '1200px', margin: '0 auto' }}>
               <h2>🛍️ Featured Products</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginTop: '20px' }}>
                 {products.map(product => (
-                  <div key={product.id} style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#fff' }}>
-                    <h3>{product.title}</h3>
-                    <p style={{ color: '#28a745', fontWeight: 'bold', fontSize: '18px' }}>${product.price}</p>
+                  <div key={product.id} style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#fff', boxShadow: '0 2px 5px rgba(0,0,0,0.05)' }}>
+                    <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{product.title}</h3>
+                    <p style={{ color: '#28a745', fontWeight: 'bold', fontSize: '18px', marginBottom: '15px' }}>${product.price}</p>
                     <button 
                       onClick={() => addToCart(product)}
                       style={{ background: '#007bff', color: '#fff', border: 'none', padding: '10px 15px', borderRadius: '5px', cursor: 'pointer', width: '100%', fontWeight: 'bold' }}
@@ -95,6 +95,17 @@ function App() {
                   </div>
                 ))}
               </div>
+            </div>
+          } 
+        />
+
+        {/* Admin Panel Route (Restored) */}
+        <Route 
+          path="/admin" 
+          element={
+            <div style={{ padding: '30px', maxWidth: '1000px', margin: '0 auto' }}>
+              <h2>⚙️ Admin Panel</h2>
+              <p>Welcome to the Admin Dashboard. Manage your products and store settings here.</p>
             </div>
           } 
         />
