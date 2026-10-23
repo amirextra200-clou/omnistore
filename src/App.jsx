@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Cart from './components/Cart';
+import Cart from './pages/Cart'; // Sahi path: pages folder ke andar hai
 
 function App() {
   // Cart state
