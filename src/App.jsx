@@ -1,92 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Cart from './pages/Cart';
-import Admin from './pages/Admin';
-import AiChat from './components/AiChat';
-import { initialProducts } from './data/products';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Cart from './components/Cart'; // Agar path alag ho toh apne folder ke mutabiq check kar lein
 
-export default function App() {
-  const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem('customProducts');
-    return saved ? JSON.parse(saved) : initialProducts;
-  });
+function App() {
+  // Cart ki main state jo saare items ko store karegi
+  const [cart, setCart] = useState([]);
 
-  const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  const [orders, setOrders] = useState(() => {
-    const saved = localStorage.getItem('martOrders');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('customProducts', JSON.stringify(products));
-  }, [products]);
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
-
-  useEffect(() => {
-    localStorage.setItem('martOrders', JSON.stringify(orders));
-  }, [orders]);
-
-  const addProduct = (newProduct) => {
-    setProducts(prev => [newProduct, ...prev]);
-  };
-
-  const deleteProduct = (id) => {
-    setProducts(prev => prev.filter(p => p.id !== id));
-  };
-
+  // Product ko cart mein add karne ka function
   const addToCart = (product) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) {
-        return prev.map(item =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+    setCart(prevCart => {
+      const existingItem = prevCart.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map(item => 
+          item.id === product.id ? { ...item, quantity: (item.quantity || 1) + 1 } : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prevCart, { ...product, quantity: 1 }];
     });
   };
 
+  // Cart se item remove karne ka function
   const removeFromCart = (id) => {
-    setCart(prev => prev.filter(item => item.id !== id));
+    setCart(prevCart => prevCart.filter(item => item.id !== id));
   };
 
-  const clearCart = () => setCart([]);
-
-  const placeOrder = (orderDetails) => {
-    setOrders(prev => [...prev, orderDetails]);
-    clearCart();
+  // Quantity increase/decrease karne ka function
+  const updateQuantity = (id, newQty) => {
+    if (newQty < 1) return;
+    setCart(prevCart => 
+      prevCart.map(item => item.id === id ? { ...item, quantity: newQty } : item)
+    );
   };
+
+  // Saara cart clear karne ka function
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  // Header ke liye total quantity count (quantities ka sum)
+  const totalCartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   return (
     <Router>
-      <Navbar 
-        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)} 
-        searchQuery={searchQuery} 
-        setSearchQuery={setSearchQuery} 
-      />
-      <div className="app-content">
-        <Routes>
-          <Route path="/" element={<Home products={products} addToCart={addToCart} searchQuery={searchQuery} />} />
-          <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} clearCart={clearCart} placeOrder={placeOrder} />} />
-          <Route path="/admin" element={<Admin products={products} addProduct={addProduct} deleteProduct={deleteProduct} orders={orders} />} />
-        </Routes>
-      </div>
-      <AiChat />
-      <footer>
-        <p>&copy; 2026 OmniStore Mart. All Rights Reserved.</p>
-      </footer>
+      {/* Navigation Header */}
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 30px', background: '#111', color: '#fff' }}>
+        <h2 style={{ margin: 0 }}>OmniStore Mart</h2>
+        <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Store Front</Link>
+          <Link to="/admin" style={{ color: '#fff', textDecoration: 'none' }}>Admin Panel</Link>
+          <Link to="/cart" style={{ background: '#28a745', padding: '8px 15px', borderRadius: '5px', color: '#fff', textDecoration: 'none', fontWeight: 'bold' }}>
+            🛒 Cart ({totalCartCount})
+          </Link>
+        </div>
+      </nav>
+
+      {/* Routes Setup */}
+      <Routes>
+        {/* Cart Page Route - Yahan 'cart' state ko 'cartItems' ke tor par pass kiya gaya hai */}
+        <Route 
+          path="/cart" 
+          element={
+            <Cart 
+              cartItems={cart} 
+              updateQuantity={updateQuantity} 
+              removeFromCart={removeFromCart} 
+              clearCart={clearCart} 
+            />
+          } 
+        />
+      </Routes>
     </Router>
   );
 }
+
+export default App;
