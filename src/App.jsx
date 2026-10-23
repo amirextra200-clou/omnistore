@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Cart from './pages/Cart';
 
 function App() {
-  // Cart state with localStorage
   const [cart, setCart] = useState(() => {
     try {
       const savedCart = localStorage.getItem('omnistore_cart');
@@ -13,19 +12,16 @@ function App() {
     }
   });
 
-  // Products state (Store Front ke liye)
-  const [products, setProducts] = useState([
+  const [products] = useState([
     { id: 1, title: 'Mechanical Gaming Keyboard', price: 62.54 },
     { id: 2, title: 'Wireless RGB Gaming Mouse', price: 29.99 },
     { id: 3, title: 'UltraWide Gaming Monitor', price: 249.99 },
   ]);
 
-  // Save cart to localStorage
   useEffect(() => {
     localStorage.setItem('omnistore_cart', JSON.stringify(cart));
   }, [cart]);
 
-  // Product add karne ka function
   const addToCart = (product) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === product.id);
@@ -38,12 +34,10 @@ function App() {
     });
   };
 
-  // Item remove karne ka function
   const removeFromCart = (id) => {
     setCart(prevCart => prevCart.filter(item => item.id !== id));
   };
 
-  // Quantity update karne ka function
   const updateQuantity = (id, newQty) => {
     if (newQty < 1) return;
     setCart(prevCart => 
@@ -51,41 +45,38 @@ function App() {
     );
   };
 
-  // Clear cart
   const clearCart = () => {
     setCart([]);
   };
 
-  // Total items count for header badge
   const totalCartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   return (
     <Router>
-      {/* Navigation Header */}
-      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 30px', background: '#111', color: '#fff' }}>
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 30px', background: '#111', color: '#fff', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}>
         <h2 style={{ margin: 0 }}>OmniStore Mart</h2>
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-          <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Store Front</Link>
-          <Link to="/admin" style={{ color: '#fff', textDecoration: 'none' }}>Admin Panel</Link>
+          <Link to="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold' }}>Store Front</Link>
+          <Link to="/admin" style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold' }}>Admin Panel</Link>
           <Link to="/cart" style={{ background: '#28a745', padding: '8px 15px', borderRadius: '5px', color: '#fff', textDecoration: 'none', fontWeight: 'bold' }}>
             🛒 Cart ({totalCartCount})
           </Link>
         </div>
       </nav>
 
-      {/* Routes */}
       <Routes>
-        {/* Store Front Page (Fixed Grid) */}
         <Route 
           path="/" 
           element={
             <div style={{ padding: '30px', maxWidth: '1200px', margin: '0 auto' }}>
-              <h2>🛍️ Featured Products</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginTop: '20px' }}>
+              <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>🛍️ Featured Products</h2>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
                 {products.map(product => (
-                  <div key={product.id} style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#fff', boxShadow: '0 2px 5px rgba(0,0,0,0.05)' }}>
-                    <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{product.title}</h3>
-                    <p style={{ color: '#28a745', fontWeight: 'bold', fontSize: '18px', marginBottom: '15px' }}>${product.price}</p>
+                  <div key={product.id} style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#fff', width: '280px', boxShadow: '0 2px 5px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                      <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>{product.title}</h3>
+                      <p style={{ color: '#28a745', fontWeight: 'bold', fontSize: '18px', marginBottom: '15px' }}>${product.price}</p>
+                    </div>
                     <button 
                       onClick={() => addToCart(product)}
                       style={{ background: '#007bff', color: '#fff', border: 'none', padding: '10px 15px', borderRadius: '5px', cursor: 'pointer', width: '100%', fontWeight: 'bold' }}
@@ -99,7 +90,6 @@ function App() {
           } 
         />
 
-        {/* Admin Panel Route (Restored) */}
         <Route 
           path="/admin" 
           element={
@@ -110,7 +100,6 @@ function App() {
           } 
         />
 
-        {/* Cart Page */}
         <Route 
           path="/cart" 
           element={
