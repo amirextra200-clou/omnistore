@@ -1,10 +1,8 @@
 import React from 'react';
 
 const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => {
-  // Safe array check taake undefined par crash na ho
   const safeItems = Array.isArray(cartItems) ? cartItems : [];
 
-  // Total amount calculate karne ka safe function
   const calculateTotal = () => {
     return safeItems
       .reduce((total, item) => total + (Number(item?.price) || 0) * (Number(item?.quantity) || 1), 0)
@@ -41,7 +39,6 @@ const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => 
                   boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
                 }}
               >
-                {/* Product Info */}
                 <div style={{ flex: 2 }}>
                   <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>{item?.title || item?.name || 'Product'}</h3>
                   <p style={{ margin: 0, color: '#28a745', fontWeight: 'bold' }}>
@@ -49,7 +46,6 @@ const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => 
                   </p>
                 </div>
 
-                {/* Quantity Controls (+ / -) */}
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                   <button 
                     onClick={() => updateQuantity && updateQuantity(item.id, currentQty - 1)}
@@ -83,12 +79,10 @@ const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => 
                   </button>
                 </div>
 
-                {/* Subtotal */}
                 <div style={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
                   ${(itemPrice * currentQty).toFixed(2)}
                 </div>
 
-                {/* Delete/Remove Button */}
                 <div style={{ flex: 1, textAlign: 'right' }}>
                   <button 
                     onClick={() => removeFromCart && removeFromCart(item.id)}
@@ -109,7 +103,6 @@ const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => 
             );
           })}
 
-          {/* Cart Summary Bar */}
           <div style={{
             display: 'flex', 
             justifyContent: 'space-between', 
