@@ -1,159 +1,163 @@
 import React, { useState } from 'react';
-import { createCategorySvg } from '../data/products';
+import { Link } from 'react-router-dom';
 
-export default function Admin({ products, addProduct, deleteProduct, orders }) {
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('electronics');
+const Admin = ({ addProduct }) => {
+  const [productName, setProductName] = useState('');
+  const [category, setCategory] = useState('Watches');
   const [price, setPrice] = useState('');
-  const [imageFile, setImageFile] = useState('');
+  const [stockQuantity, setStockQuantity] = useState('1');
+  const [imageUrl, setImageUrl] = useState('');
+  const [imagePreview, setImagePreview] = useState(null);
 
-  const handleImageChange = (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageFile(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!productName || !price) return;
     
-    const finalImage = imageFile !== '' 
-      ? imageFile 
-      : createCategorySvg(name, category);
+    let catColor = '#1a2238';
+    const catUpper = category.toUpperCase();
+    if (catUpper.includes('SKIN')) catColor = '#831843';
+    else if (catUpper.includes('HAIR')) catColor = '#064e3b';
+    else if (catUpper.includes('FASHION')) catColor = '#312e81';
+    else if (catUpper.includes('WATCH')) catColor = '#451a03';
 
-    const newProd = {
+    const newProduct = {
       id: Date.now(),
-      name,
-      category,
+      title: productName,
+      category: catUpper,
       price: parseFloat(price),
-      image: finalImage
+      stock: parseInt(stockQuantity) || 1,
+      image: imagePreview || imageUrl || '',
+      icon: '🛍️',
+      color: catColor
     };
 
-    addProduct(newProd);
-    setName('');
+    addProduct(newProduct);
+    setProductName('');
     setPrice('');
-    setImageFile('');
-    alert(`"${name}" added to Mart Inventory successfully!`);
+    setStockQuantity('1');
+    setImageUrl('');
+    setImagePreview(null);
+    alert('Product added successfully to store!');
   };
 
   return (
-    <main className="container">
-      <h2>🏪 Mart Owner Dashboard</h2>
-
-      <div style={{ display: 'flex', gap: '20px', margin: '20px 0' }}>
-        <div style={{ background: 'white', padding: '20px', borderRadius: '8px', flex: 1, border: '1px solid #e2e8f0' }}>
-          <p>Total Products in Mart</p>
-          <h3>{products.length}</h3>
+    <div style={{ background: '#f8fafc', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 40px', background: '#0b1329', color: '#fff' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '20px' }}>🛍️</span>
+          <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold' }}>OmniStore Admin</h2>
         </div>
-        <div style={{ background: 'white', padding: '20px', borderRadius: '8px', flex: 1, border: '1px solid #e2e8f0' }}>
-          <p>Mart Orders Received</p>
-          <h3 style={{ color: '#16a34a' }}>{orders.length}</h3>
+        <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <Link to="/" style={{ color: '#fff', textDecoration: 'none', fontSize: '15px', fontWeight: '500' }}>Store Front</Link>
+          <Link to="/admin" style={{ color: '#facc15', textDecoration: 'none', fontSize: '15px', fontWeight: 'bold' }}>Admin Panel</Link>
         </div>
-      </div>
+      </nav>
 
-      {/* Product Add Form */}
-      <div style={{ background: 'white', padding: '25px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '30px' }}>
-        <h3>➕ Add Product to Mart</h3>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '15px' }}>
-          <input 
-            type="text" 
-            placeholder="Product Name" 
-            required 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
-            style={{ padding: '10px', borderRadius: '6px', border: '1px solid #ccc' }} 
-          />
-          
-          <select 
-            value={category} 
-            onChange={(e) => setCategory(e.target.value)} 
-            style={{ padding: '10px', borderRadius: '6px', border: '1px solid #ccc' }}
-          >
-            <option value="electronics">Electronics</option>
-            <option value="watches">Watches</option>
-            <option value="skincare">Skincare</option>
-            <option value="haircare">Hair Care</option>
-            <option value="fashion">Fashion</option>
-            <option value="groceries">Groceries</option>
-          </select>
+      <div style={{ maxWidth: '900px', margin: '40px auto', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', padding: '40px' }}>
+        
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '22px', color: '#0f172a', marginBottom: '30px', fontWeight: 'bold' }}>
+          <span style={{ color: '#7c3aed', fontSize: '24px' }}>+</span> Add New Product
+        </h2>
 
-          <input 
-            type="number" 
-            step="0.01" 
-            placeholder="Price ($)" 
-            required 
-            value={price} 
-            onChange={(e) => setPrice(e.target.value)} 
-            style={{ padding: '10px', borderRadius: '6px', border: '1px solid #ccc' }} 
-          />
+        <form onSubmit={handleSubmit}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px', marginBottom: '25px' }}>
+            
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Product Name</label>
+              <input
+                type="text"
+                placeholder="Rolex watch"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '14px', outline: 'none' }}
+                required
+              />
+            </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            <label style={{ fontSize: '13px', fontWeight: 'bold', color: '#475569' }}>Select Product Picture from PC:</label>
-            <input 
-              type="file" 
-              accept="image/*" 
-              onChange={handleImageChange} 
-              style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc', background: '#f8fafc', cursor: 'pointer' }} 
-            />
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Category</label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '14px', background: '#fff', outline: 'none' }}
+              >
+                <option value="Watches">Watches</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Skincare">Skincare</option>
+                <option value="Hair Care">Hair Care</option>
+                <option value="Fashion">Fashion</option>
+              </select>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Price ($)</label>
+              <input
+                type="number"
+                step="0.01"
+                placeholder="400.00"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '14px', outline: 'none' }}
+                required
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Stock Quantity</label>
+              <input
+                type="number"
+                placeholder="1"
+                value={stockQuantity}
+                onChange={(e) => setStockQuantity(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '14px', outline: 'none' }}
+              />
+            </div>
+
           </div>
 
-          <button 
-            type="submit" 
-            style={{ background: '#2563eb', color: 'white', padding: '12px', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', marginTop: '5px' }}
+          <div style={{ marginBottom: '30px' }}>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Product Image (Browse File OR Enter URL)</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <label style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', padding: '8px 14px', borderRadius: '6px', cursor: 'pointer', fontSize: '14px', fontWeight: '500' }}>
+                Choose File
+                <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+              </label>
+              <span style={{ fontSize: '14px', color: '#64748b' }}>{imagePreview ? 'File selected' : 'no file chosen'}</span>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#64748b' }}>OR</span>
+              <input
+                type="text"
+                placeholder="https://example.com/image.jpg"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                style={{ flex: 1, padding: '9px 14px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '14px', outline: 'none' }}
+              />
+            </div>
+
+            {(imagePreview || imageUrl) && (
+              <div style={{ marginTop: '15px' }}>
+                <img src={imagePreview || imageUrl} alt="Preview" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #cbd5e1' }} />
+              </div>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            style={{ background: '#2563eb', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: '6px', fontSize: '15px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(37,99,235,0.2)' }}
           >
-            Save Product
+            Add Product to Store
           </button>
         </form>
-      </div>
 
-      {/* Inventory Items Management & Delete Section */}
-      <div style={{ background: 'white', padding: '25px', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '30px' }}>
-        <h3>📦 Manage Mart Inventory</h3>
-        <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {products.length === 0 ? (
-            <p style={{ color: '#64748b' }}>No products in inventory.</p>
-          ) : (
-            products.map((p) => (
-              <div key={p.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 15px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <img src={p.image} alt={p.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
-                  <div>
-                    <strong>{p.name}</strong>
-                    <span style={{ fontSize: '12px', color: '#64748b', marginLeft: '10px', textTransform: 'capitalize' }}>({p.category})</span>
-                    <p style={{ margin: 0, fontSize: '14px', color: '#16a34a', fontWeight: 'bold' }}>${p.price.toFixed(2)}</p>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => deleteProduct(p.id)} 
-                  style={{ background: '#ef4444', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
-                >
-                  🗑️ Delete
-                </button>
-              </div>
-            ))
-          )}
-        </div>
       </div>
-
-      {/* Customer Orders Log */}
-      <div style={{ background: 'white', padding: '25px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-        <h3>📋 Mart Customer Orders Log</h3>
-        {orders.length === 0 ? (
-          <p style={{ color: '#64748b', marginTop: '10px' }}>No orders recorded yet.</p>
-        ) : (
-          orders.slice().reverse().map((ord, idx) => (
-            <div key={idx} style={{ background: '#f8fafc', padding: '12px', borderRadius: '6px', border: '1px solid #e2e8f0', marginTop: '10px' }}>
-              <p><strong>Customer:</strong> {ord.name} | <strong>Phone:</strong> {ord.phone}</p>
-              <p><strong>Items:</strong> {ord.items}</p>
-              <p style={{ color: '#16a34a', fontWeight: 'bold' }}>Total: ${ord.total}</p>
-            </div>
-          ))
-        )}
-      </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default Admin;
