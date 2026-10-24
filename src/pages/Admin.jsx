@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Admin = ({ addProduct }) => {
+const Admin = ({ products = [], addProduct, deleteProduct }) => {
   const [productName, setProductName] = useState('');
   const [category, setCategory] = useState('Watches');
   const [price, setPrice] = useState('');
@@ -19,7 +19,7 @@ const Admin = ({ addProduct }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!productName || !price) return;
-    
+
     let catColor = '#1a2238';
     const catUpper = category.toUpperCase();
     if (catUpper.includes('SKIN')) catColor = '#831843';
@@ -38,17 +38,20 @@ const Admin = ({ addProduct }) => {
       color: catColor
     };
 
-    addProduct(newProduct);
+    if (addProduct) {
+      addProduct(newProduct);
+    }
+
     setProductName('');
     setPrice('');
     setStockQuantity('1');
     setImageUrl('');
     setImagePreview(null);
-    alert('Product added successfully to store!');
   };
 
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+      {/* Top Navbar Header */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 40px', background: '#0b1329', color: '#fff' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '20px' }}>🛍️</span>
@@ -60,15 +63,17 @@ const Admin = ({ addProduct }) => {
         </div>
       </nav>
 
+      {/* Main Content Card */}
       <div style={{ maxWidth: '900px', margin: '40px auto', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', padding: '40px' }}>
-        
+
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '22px', color: '#0f172a', marginBottom: '30px', fontWeight: 'bold' }}>
           <span style={{ color: '#7c3aed', fontSize: '24px' }}>+</span> Add New Product
         </h2>
 
-        <form onSubmit={handleSubmit}>
+        {/* Add Product Form */}
+        <form onSubmit={handleSubmit} style={{ marginBottom: '40px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px', marginBottom: '25px' }}>
-            
+
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Product Name</label>
               <input
@@ -154,6 +159,45 @@ const Admin = ({ addProduct }) => {
             Add Product to Store
           </button>
         </form>
+
+        {/* Existing Products Management Table with Delete Buttons */}
+        <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '30px 0' }} />
+
+        <h3 style={{ fontSize: '18px', color: '#0f172a', marginBottom: '15px', fontWeight: 'bold' }}>
+          Manage Existing Products ({products.length})
+        </h3>
+
+        {products.length === 0 ? (
+          <p style={{ color: '#64748b', fontSize: '14px' }}>No products available in store.</p>
+        ) : (
+          <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+            <thead>
+              <tr style={{ background: '#f1f5f9', textAlign: 'left', borderBottom: '2px solid #cbd5e1' }}>
+                <th style={{ padding: '12px 16px', fontSize: '14px', color: '#334155' }}>Title</th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', color: '#334155' }}>Category</th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', color: '#334155' }}>Price</th>
+                <th style={{ padding: '12px 16px', fontSize: '14px', textAlign: 'right', color: '#334155' }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map(p => (
+                <tr key={p.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', fontWeight: '600', color: '#0f172a' }}>{p.title}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#64748b' }}>{p.category}</td>
+                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#16a34a', fontWeight: 'bold' }}>${Number(p.price).toFixed(2)}</td>
+                  <td style={{ padding: '12px 16px', textAlign: 'right' }}>
+                    <button
+                      onClick={() => deleteProduct && deleteProduct(p.id)}
+                      style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '6px 14px', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '13px' }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
       </div>
     </div>
