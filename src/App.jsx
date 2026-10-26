@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { db } from './firebase';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin';
 
@@ -13,37 +15,33 @@ function App() {
     }
   });
 
-  const [products, setProducts] = useState([
-    { id: 1, title: 'Wireless RGB Gaming Mouse', category: 'ELECTRONICS', price: 68.43, stock: 15, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 2, title: 'Mechanical Gaming Keyboard', category: 'ELECTRONICS', price: 59.81, stock: 10, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 3, title: 'Noise Cancelling Headphones', category: 'ELECTRONICS', price: 65.25, stock: 8, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 4, title: 'Ultra HD 4K Gaming Monitor', category: 'ELECTRONICS', price: 68.39, stock: 5, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 5, title: 'Smart Fitness Watch Series 7', category: 'ELECTRONICS', price: 71.98, stock: 12, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 6, title: 'Bluetooth Portable Speaker', category: 'ELECTRONICS', price: 69.81, stock: 20, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 7, title: 'Fast Wireless Charging Pad', category: 'ELECTRONICS', price: 12.07, stock: 25, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 8, title: '1080p HD Webcam with Mic', category: 'ELECTRONICS', price: 70.65, stock: 14, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 9, title: 'RGB LED Desk Light Bar', category: 'ELECTRONICS', price: 39.91, stock: 18, icon: '⚡', color: '#1a2238', image: '' },
-    { id: 10, title: 'Type-C Multi-Port Hub Adapter', category: 'ELECTRONICS', price: 61.77, stock: 30, icon: '⚡', color: '#1a2238', image: '' },
-
-    { id: 11, title: 'Hydrating Facial Cream', category: 'SKINCARE', price: 55.37, stock: 15, icon: '✨', color: '#831843', image: '' },
-    { id: 12, title: 'Vitamin C Glow Serum', category: 'SKINCARE', price: 15.08, stock: 22, icon: '✨', color: '#831843', image: '' },
-    { id: 13, title: 'Aloe Vera Soothing Gel', category: 'SKINCARE', price: 45.04, stock: 19, icon: '✨', color: '#831843', image: '' },
-    { id: 14, title: 'Exfoliating Face Scrub Mask', category: 'SKINCARE', price: 15.65, stock: 25, icon: '✨', color: '#831843', image: '' },
-    { id: 15, title: 'Anti-Aging Night Repair Cream', category: 'SKINCARE', price: 21.87, stock: 10, icon: '✨', color: '#831843', image: '' },
-
-    { id: 16, title: 'Nourishing Hair Shampoo', category: 'HAIR CARE', price: 21.39, stock: 25, icon: '🌿', color: '#064e3b', image: '' },
-    { id: 17, title: 'Argan Hair Conditioning Oil', category: 'HAIR CARE', price: 51.27, stock: 15, icon: '🌿', color: '#064e3b', image: '' },
-    { id: 18, title: 'Keratin Smooth Hair Mask', category: 'HAIR CARE', price: 71.02, stock: 12, icon: '🌿', color: '#064e3b', image: '' },
-
-    { id: 19, title: 'Classic Denim Jacket', category: 'FASHION', price: 55.00, stock: 8, icon: '👕', color: '#312e81', image: '' },
-    { id: 20, title: 'Rolex Watch', category: 'WATCHES', price: 400.00, stock: 1, icon: '⌚', color: '#451a03', image: '' }
-  ]);
-
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   
   // Track button feedback for green state
   const [addedItems, setAddedItems] = useState({});
+
+  // Fetch products from Firebase Firestore on load
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'products'));
+        const productsList = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProducts(productsList);
+      } catch (error) {
+        console.error("Error fetching products from Firestore: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('omnistore_cart', JSON.stringify(cart));
@@ -60,10 +58,8 @@ function App() {
       return [...prevCart, { ...product, quantity: 1 }];
     });
 
-    // Set green feedback for this specific product ID
     setAddedItems(prev => ({ ...prev, [product.id]: true }));
 
-    // Reset back to blue after 1.5 seconds
     setTimeout(() => {
       setAddedItems(prev => ({ ...prev, [product.id]: false }));
     }, 1500);
@@ -77,17 +73,35 @@ function App() {
   const removeFromCart = (id) => setCart(prevCart => prevCart.filter(item => item.id !== id));
   const clearCart = () => setCart([]);
 
-  const addProduct = (newProduct) => {
-    setProducts([newProduct, ...products]);
+  // Add product to Firebase Firestore
+  const addProduct = async (newProduct) => {
+    try {
+      // Remove local static id so Firestore auto-generates a clean document ID
+      const { id, ...productData } = newProduct;
+      const docRef = await addDoc(collection(db, 'products'), productData);
+      
+      const createdProduct = { id: docRef.id, ...productData };
+      setProducts([createdProduct, ...products]);
+    } catch (error) {
+      console.error("Error adding product to Firestore: ", error);
+    }
   };
 
-  const deleteProduct = (id) => {
-    setProducts(products.filter(p => p.id !== id));
+  // Delete product from Firebase Firestore
+  const deleteProduct = async (id) => {
+    try {
+      await deleteDoc(doc(db, 'products', id));
+      setProducts(products.filter(p => p.id !== id));
+    } catch (error) {
+      console.error("Error deleting product from Firestore: ", error);
+    }
   };
 
   const filteredProducts = products.filter(product => {
-    const catMatch = selectedCategory === 'All' || product.category.toLowerCase().replace(/\s+/g, '') === selectedCategory.toLowerCase().replace(/\s+/g, '');
-    const searchMatch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const categoryStr = product.category || '';
+    const catMatch = selectedCategory === 'All' || categoryStr.toLowerCase().replace(/\s+/g, '') === selectedCategory.toLowerCase().replace(/\s+/g, '');
+    const titleStr = product.title || '';
+    const searchMatch = titleStr.toLowerCase().includes(searchQuery.toLowerCase());
     return catMatch && searchMatch;
   });
 
@@ -151,60 +165,65 @@ function App() {
                     ))}
                   </div>
 
-                  {/* 5-Column Grid Layout */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px' }}>
-                    {filteredProducts.map(product => {
-                      const isAdded = addedItems[product.id];
+                  {loading ? (
+                    <p style={{ textAlign: 'center', color: '#64748b', fontSize: '16px' }}>Loading products from Firebase...</p>
+                  ) : filteredProducts.length === 0 ? (
+                    <p style={{ textAlign: 'center', color: '#64748b', fontSize: '16px' }}>No products found in database.</p>
+                  ) : (
+                    /* 5-Column Grid Layout */
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px' }}>
+                      {filteredProducts.map(product => {
+                        const isAdded = addedItems[product.id];
 
-                      return (
-                        <div key={product.id} style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden', background: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                          
-                          <div style={{ height: '110px', background: product.color, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff', padding: '10px', textAlign: 'center', position: 'relative' }}>
-                            {product.image ? (
-                              <img src={product.image} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            ) : (
-                              <>
-                                <span style={{ fontSize: '20px', marginBottom: '6px' }}>{product.icon}</span>
-                                <span style={{ fontWeight: '600', fontSize: '11px', lineHeight: '1.2' }}>{product.title}</span>
-                              </>
-                            )}
-                          </div>
-
-                          <div style={{ padding: '12px 10px', textAlign: 'center' }}>
-                            <h4 style={{ margin: '0 0 4px 0', fontSize: '12px', color: '#0f172a', fontWeight: 'bold', height: '32px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                              {product.title}
-                            </h4>
-                            <span style={{ fontSize: '10px', color: '#64748b', textTransform: 'uppercase', fontWeight: 'bold' }}>
-                              {product.category}
-                            </span>
-                            <p style={{ color: '#16a34a', fontWeight: 'bold', fontSize: '14px', margin: '6px 0 10px 0' }}>
-                              ${product.price.toFixed(2)}
-                            </p>
+                        return (
+                          <div key={product.id} style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden', background: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             
-                            {/* Dynamic Green State Button */}
-                            <button
-                              onClick={() => addToCart(product)}
-                              style={{ 
-                                background: isAdded ? '#22c55e' : '#2563eb', 
-                                color: '#fff', 
-                                border: 'none', 
-                                padding: '6px', 
-                                borderRadius: '4px', 
-                                cursor: 'pointer', 
-                                width: '100%', 
-                                fontWeight: 'bold', 
-                                fontSize: '12px',
-                                transition: 'background-color 0.3s ease'
-                              }}
-                            >
-                              {isAdded ? 'Added ✓' : 'Add to Cart'}
-                            </button>
-                          </div>
+                            <div style={{ height: '110px', background: product.color || '#1a2238', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff', padding: '10px', textAlign: 'center', position: 'relative' }}>
+                              {product.image ? (
+                                <img src={product.image} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                              ) : (
+                                <>
+                                  <span style={{ fontSize: '20px', marginBottom: '6px' }}>{product.icon || '📦'}</span>
+                                  <span style={{ fontWeight: '600', fontSize: '11px', lineHeight: '1.2' }}>{product.title}</span>
+                                </>
+                              )}
+                            </div>
 
-                        </div>
-                      );
-                    })}
-                  </div>
+                            <div style={{ padding: '12px 10px', textAlign: 'center' }}>
+                              <h4 style={{ margin: '0 0 4px 0', fontSize: '12px', color: '#0f172a', fontWeight: 'bold', height: '32px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                {product.title}
+                              </h4>
+                              <span style={{ fontSize: '10px', color: '#64748b', textTransform: 'uppercase', fontWeight: 'bold' }}>
+                                {product.category}
+                              </span>
+                              <p style={{ color: '#16a34a', fontWeight: 'bold', fontSize: '14px', margin: '6px 0 10px 0' }}>
+                                ${Number(product.price || 0).toFixed(2)}
+                              </p>
+                              
+                              <button
+                                onClick={() => addToCart(product)}
+                                style={{ 
+                                  background: isAdded ? '#22c55e' : '#2563eb', 
+                                  color: '#fff', 
+                                  border: 'none', 
+                                  padding: '6px', 
+                                  borderRadius: '4px', 
+                                  cursor: 'pointer', 
+                                  width: '100%', 
+                                  fontWeight: 'bold', 
+                                  fontSize: '12px',
+                                  transition: 'background-color 0.3s ease'
+                                }}
+                              >
+                                {isAdded ? 'Added ✓' : 'Add to Cart'}
+                              </button>
+                            </div>
+
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
 
                 </div>
               </div>

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const safeItems = Array.isArray(cartItems) ? cartItems : [];
 
@@ -15,24 +18,46 @@ const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => 
 
   const totalCartCount = safeItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
-  // Professional Order Placement Handler (Without Browser Alert)
-  const handlePlaceOrder = () => {
-    if (safeItems.length === 0) return;
+  // Professional Order Placement Handler with Firebase Integration
+  const handlePlaceOrder = async () => {
+    if (safeItems.length === 0 || loading) return;
 
-    // Generate random Order ID and Total Amount before clearing
-    const generatedOrderId = 'OMNI-' + Math.floor(100000 + Math.random() * 900000);
-    const totalAmount = calculateTotal();
+    setLoading(true);
 
-    setOrderDetails({
-      orderId: generatedOrderId,
-      total: totalAmount,
-      itemCount: totalCartCount
-    });
+    try {
+      const generatedOrderId = 'OMNI-' + Math.floor(100000 + Math.random() * 900000);
+      const totalAmount = calculateTotal();
 
-    setOrderPlaced(true);
+      // Save order to Firebase Firestore 'orders' collection
+      await addDoc(collection(db, 'orders'), {
+        orderId: generatedOrderId,
+        items: safeItems.map(item => ({
+          id: item.id || '',
+          title: item.title || item.name || 'Product',
+          price: Number(item.price) || 0,
+          quantity: item.quantity || 1
+        })),
+        total: Number(totalAmount),
+        itemCount: totalCartCount,
+        createdAt: serverTimestamp()
+      });
 
-    if (clearCart) {
-      clearCart();
+      setOrderDetails({
+        orderId: generatedOrderId,
+        total: totalAmount,
+        itemCount: totalCartCount
+      });
+
+      setOrderPlaced(true);
+
+      if (clearCart) {
+        clearCart();
+      }
+    } catch (error) {
+      console.error("Error saving order to Firebase: ", error);
+      alert("Failed to place order. Please check your connection.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,7 +113,7 @@ const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => 
               </h2>
 
               <p style={{ color: '#64748b', fontSize: '15px', margin: '0 0 20px 0' }}>
-                Thank you for your purchase. We are processing your items for delivery.
+                Thank you for your purchase. Your order has been securely saved to the cloud database.
               </p>
 
               <div style={{
@@ -255,19 +280,20 @@ const Cart = ({ cartItems = [], updateQuantity, removeFromCart, clearCart }) => 
                       <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#0f172a' }}>Total: ${calculateTotal()}</h3>
                       <button 
                         onClick={handlePlaceOrder}
+                        disabled={loading}
                         style={{
-                          backgroundColor: '#22c55e',
+                          backgroundColor: loading ? '#94a3b8' : '#22c55e',
                           color: 'white',
                           border: 'none',
                           padding: '12px 24px',
                           borderRadius: '6px',
                           fontSize: '15px',
                           fontWeight: 'bold',
-                          cursor: 'pointer',
+                          cursor: loading ? 'not-allowed' : 'pointer',
                           boxShadow: '0 2px 4px rgba(34,197,94,0.3)'
                         }}
                       >
-                        Place Order 🚀
+                        {loading ? 'Processing...' : 'Place Order 🚀'}
                       </button>
                     </div>
                   </div>
